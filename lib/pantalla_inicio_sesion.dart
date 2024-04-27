@@ -1,7 +1,8 @@
+import 'package:echoing_emotions/pantalla_inicio_despues_de_iniciar.dart';
 import 'package:flutter/material.dart';
-import 'registration_screen.dart'; // Importamos la pantalla de registro
-import 'recuperar_password.dart'; // Importamos la pantalla de recuperación de contraseña
-import 'home_after_login.dart'; // Importamos la pantalla de inicio después del inicio de sesión exitoso
+import 'pantalla_registro.dart'; // Importamos la pantalla de registro
+import 'pantalla_recuperar_contrasena.dart'; // Importamos la pantalla de recuperación de contraseña
+import 'pantalla_mi_perfil.dart'; // Importamos la pantalla de inicio después del inicio de sesión exitoso
 
 /*
 Falta revisar que las credenciales estén correctas al iniciar sesión
@@ -17,7 +18,7 @@ class LoginScreen extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Colors.greenAccent.shade200, Colors.green.shade400],
+            colors: [Colors.tealAccent.shade200, Colors.teal.shade300],
           ),
         ),
         child: Column(
@@ -99,7 +100,7 @@ class LoginScreen extends StatelessWidget {
                 // Navegar a la pantalla de inicio después del inicio de sesión exitoso al presionar el botón
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => HomeAfterLogin()),
+                  MaterialPageRoute(builder: (context) => Home()),
                 );
               },
               child: Text(

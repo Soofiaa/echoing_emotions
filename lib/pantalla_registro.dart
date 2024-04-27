@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // Importamos el paquete de internacionalización
-import 'login_screen.dart'; // Importamos la pantalla de inicio de sesión
+import 'package:intl/intl.dart';
+import 'pantalla_inicio_sesion.dart'; // Importamos la pantalla de inicio de sesión
 
 class RegistrationScreen extends StatefulWidget {
   @override
@@ -88,14 +88,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Colors.greenAccent.shade200, Colors.green.shade400],
+            colors: [Colors.tealAccent.shade200, Colors.teal.shade300],
           ),
         ),
         child: ListView(
           children: [
             SizedBox(height: 24.0),
             Text(
-              'Registro',
+              'Registrarse',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 32.0,

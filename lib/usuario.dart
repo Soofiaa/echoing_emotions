@@ -1,3 +1,7 @@
+/*
+* Una idea de cómo almacenar el registro del usuario
+* */
+
 class Usuario {
   String nombre;
   String apellido;
