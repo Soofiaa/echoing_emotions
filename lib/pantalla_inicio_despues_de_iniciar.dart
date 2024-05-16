@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'pantalla_calendario.dart'; // Importa la pantalla del calendario
 import 'pantalla_nueva_entrada_diario.dart'; // Importa la pantalla de entrada del diario
 import 'pantalla_mi_perfil.dart'; // Importa la pantalla HomeAfterLogin
+import 'package:intl/intl.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -15,17 +16,18 @@ class Home extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(80.0),
             child: Text(
-              '¡Bienvenido a tu día lleno de posibilidades!',
+              DateFormat('dd-MM-yyyy').format(DateTime.now()),
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 24.0,
+                fontSize: 30.0,
                 fontWeight: FontWeight.bold,
               ),
               textAlign: TextAlign.center,
             ),
           ),
+
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 20.0),
