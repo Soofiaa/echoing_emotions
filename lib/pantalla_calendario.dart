@@ -1,33 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:table_calendar/table_calendar.dart';
+import 'package:intl/date_symbol_data_local.dart';
+
 
 class Calendario extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    initializeDateFormatting();
+    DateTime today = DateTime.now();
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Calendario'),
+          title: const Text('Calendario'),
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
         ),
-        body: Container(
-          color: Colors.white,
-          child: Center(
-            child: Text(
-              'Interfaz de Calendario',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-            ),
-          ),
-        ),
+          body:TableCalendar(
+            locale:'es',
+            headerStyle: HeaderStyle(formatButtonVisible: false , titleCentered: true),
+            firstDay: DateTime.utc(2010, 10, 16),
+            lastDay: DateTime.utc(2030, 3, 14),
+            focusedDay: today,
+          )
       ),
+
     );
   }
+
 }
+
