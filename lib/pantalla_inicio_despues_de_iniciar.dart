@@ -16,12 +16,12 @@ class Home extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-            padding: const EdgeInsets.all(90.0),
+            padding: const EdgeInsets.all(80.0),
             child: Text(
               DateFormat('dd-MM-yyyy').format(DateTime.now()),
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 40.0,
+                fontSize: 30.0,
                 fontWeight: FontWeight.bold,
               ),
               textAlign: TextAlign.center,
