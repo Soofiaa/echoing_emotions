@@ -1,6 +1,6 @@
 # echoing_emotions
 
-Diario virtual
+#Diario virtual
 
 ## Getting Started
 
