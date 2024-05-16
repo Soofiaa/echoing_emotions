@@ -27,7 +27,18 @@ class Home extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-
+          Padding(
+            padding: const EdgeInsets.all(50.0),
+            child: Text(
+              'Meditar puede ayudarte a dormir mejor.',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 20.0),
