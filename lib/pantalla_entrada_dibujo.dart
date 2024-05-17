@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
 
-import 'package:flutter/material.dart';
-
 class EntradaDibujo extends StatefulWidget {
+  final List<Offset?> initialPoints;
+
+  EntradaDibujo({required this.initialPoints});
+
   @override
   _EntradaDibujoState createState() => _EntradaDibujoState();
 }
 
 class _EntradaDibujoState extends State<EntradaDibujo> {
-  List<Offset?> points = []; // Lista para almacenar los puntos dibujados
+  List<Offset?> points = [];
+
+  @override
+  void initState() {
+    super.initState();
+    points = List.from(widget.initialPoints); // Copiar los puntos iniciales
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +36,10 @@ class _EntradaDibujoState extends State<EntradaDibujo> {
           painter: PizarraPainter(points),
           size: Size.infinite,
         ),
-
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          //agregar la logica para el guardado del dibujO
+          Navigator.pop(context, points); // Devolver los puntos dibujados
           print('Dibujo guardado');
         },
         child: Icon(Icons.save),
