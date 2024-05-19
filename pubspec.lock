@@ -94,6 +94,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_colorpicker:
+    dependency: "direct main"
+    description:
+      name: flutter_colorpicker
+      sha256: "458a6ed8ea480eb16ff892aedb4b7092b2804affd7e046591fb03127e8d8ef8b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -106,26 +114,26 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_sound
-      sha256: "896682c8ad2fa2463ae6bee3f36ab77d619ad6aafaa3b8b4988022ef4a5ccecd"
+      sha256: b833fb405bb8926411cf1294000066c5e0976477c5c9f39da547a369d99260f0
       url: "https://pub.dev"
     source: hosted
-    version: "9.4.10"
+    version: "9.4.11"
   flutter_sound_platform_interface:
     dependency: transitive
     description:
       name: flutter_sound_platform_interface
-      sha256: "0ccc0c3876f8569de1debf6c6966939fae5e2ccf118770bdbda1e44ebc858428"
+      sha256: "62756ed1be2ac0cb0499c1c7da496a97d20d116eb42a522df48306a37b374aad"
       url: "https://pub.dev"
     source: hosted
-    version: "9.4.10"
+    version: "9.4.11"
   flutter_sound_web:
     dependency: transitive
     description:
       name: flutter_sound_web
-      sha256: ef51f3b26efebc7229978e6f4540c4f4901c1a2a2ebd510ae38da130b64dc573
+      sha256: b9f2cfd72aa21929cc3d9c0017fcdeb36bb07e95f5e4a698e040ca9bb7b47d2f
       url: "https://pub.dev"
     source: hosted
-    version: "9.4.10"
+    version: "9.4.11"
   flutter_test:
     dependency: "direct dev"
     description: flutter
