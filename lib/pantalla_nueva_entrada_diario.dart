@@ -14,6 +14,7 @@ class _EntradaDiarioState extends State<EntradaDiario> {
   TextEditingController _titleController = TextEditingController();
   final double _initialHeight = 100.0;
   List<DrawingPoint?> _drawingPoints = [];
+  double _drawingScaleFactor = 0.55;
 
   @override
   Widget build(BuildContext context) {
@@ -134,14 +135,14 @@ class _EntradaDiarioState extends State<EntradaDiario> {
 
   Widget _buildDrawingStack() {
     return Container(
-      height: 750, // Modificado
-      width: double.infinity,
+      height: 420,
+      width: 250,
       decoration: BoxDecoration(
-        color: Colors.white, // Cambiado al color de fondo
+        color: Colors.white,
         borderRadius: BorderRadius.circular(15.0),
       ),
       child: CustomPaint(
-        painter: _DrawingPainter(_drawingPoints),
+        painter: _DrawingPainter(_drawingPoints, scaleFactor: _drawingScaleFactor), // Modificado
       ),
     );
   }
@@ -149,11 +150,14 @@ class _EntradaDiarioState extends State<EntradaDiario> {
 
 class _DrawingPainter extends CustomPainter {
   final List<DrawingPoint?> drawingPoints;
+  final double scaleFactor; // Nuevo
 
-  _DrawingPainter(this.drawingPoints);
+  _DrawingPainter(this.drawingPoints, {this.scaleFactor = 1.0}); // Modificado
 
   @override
   void paint(Canvas canvas, Size size) {
+    canvas.scale(scaleFactor); // Nuevo
+
     for (int i = 0; i < drawingPoints.length - 1; i++) {
       if (drawingPoints[i] != null && drawingPoints[i + 1] != null) {
         canvas.drawLine(drawingPoints[i]!.offset, drawingPoints[i + 1]!.offset,
