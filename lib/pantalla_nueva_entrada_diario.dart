@@ -106,6 +106,8 @@ class _EntradaDiarioState extends State<EntradaDiario> {
                 SizedBox(height: 20),
                 if (_drawingPoints.isNotEmpty) _buildDrawingStack(),
                 SizedBox(height: 20),
+                // Espacio en blanco al final de la página
+                SizedBox(height: MediaQuery.of(context).size.height / 2), // Modificado
               ],
             ),
           ),
@@ -125,17 +127,17 @@ class _EntradaDiarioState extends State<EntradaDiario> {
           }
         },
         child: Icon(Icons.edit),
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.white,
       ),
     );
   }
 
   Widget _buildDrawingStack() {
     return Container(
-      height: 750, // Ajusta este valor según sea necesario
+      height: 750, // Modificado
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.white, // Cambiado al color de fondo
         borderRadius: BorderRadius.circular(15.0),
       ),
       child: CustomPaint(
