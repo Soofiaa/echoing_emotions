@@ -31,50 +31,12 @@ class _EntradaDiarioState extends State<EntradaDiario> {
         ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 5,
-                      blurRadius: 5,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: TextField(
-                  controller: _titleController,
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'AbrilFatface',
-                  ),
-                  inputFormatters: [
-                    LengthLimitingTextInputFormatter(50),
-                  ],
-                  decoration: InputDecoration(
-                    hintText: 'Escribe el título aquí',
-                    hintStyle: TextStyle(
-                      fontFamily: 'AbrilFatface',
-                    ),
-                    border: InputBorder.none,
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-              Container(
-                child: AnimatedContainer(
-                  duration: Duration(milliseconds: 50),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
                   width: double.infinity,
-                  constraints: BoxConstraints(
-                    minHeight: _initialHeight,
-                  ),
+                  padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10.0),
@@ -87,25 +49,65 @@ class _EntradaDiarioState extends State<EntradaDiario> {
                       ),
                     ],
                   ),
-                  child: IntrinsicHeight(
-                    child: TextField(
-                      controller: _textController,
-                      textAlign: TextAlign.justify,
-                      maxLines: null,
-                      keyboardType: TextInputType.multiline,
-                      decoration: InputDecoration(
-                        hintText: 'Escribe aquí',
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.all(20.0),
+                  child: TextField(
+                    controller: _titleController,
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'AbrilFatface',
+                    ),
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(50),
+                    ],
+                    decoration: InputDecoration(
+                      hintText: 'Escribe el título aquí',
+                      hintStyle: TextStyle(
+                        fontFamily: 'AbrilFatface',
+                      ),
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
+                Container(
+                  child: AnimatedContainer(
+                    duration: Duration(milliseconds: 50),
+                    width: double.infinity,
+                    constraints: BoxConstraints(
+                      minHeight: _initialHeight,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 5,
+                          blurRadius: 5,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: IntrinsicHeight(
+                      child: TextField(
+                        controller: _textController,
+                        textAlign: TextAlign.justify,
+                        maxLines: null,
+                        keyboardType: TextInputType.multiline,
+                        decoration: InputDecoration(
+                          hintText: 'Escribe aquí',
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.all(20.0),
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: 20),
-              _buildDrawingStack(),
-              SizedBox(height: 20),
-            ],
+                SizedBox(height: 20),
+                if (_drawingPoints.isNotEmpty) _buildDrawingStack(),
+                SizedBox(height: 20),
+              ],
+            ),
           ),
         ),
       ),
@@ -129,30 +131,20 @@ class _EntradaDiarioState extends State<EntradaDiario> {
   }
 
   Widget _buildDrawingStack() {
-    return Stack(
-      alignment: Alignment.centerLeft,
-      children: [
-        if (_drawingPoints.isNotEmpty)
-          Container(
-            color: Colors.transparent,
-
-          ),
-        if (_drawingPoints.isNotEmpty)
-          Positioned(
-            left: 0,
-            child: Transform.scale(
-              scale: 0.5, // Factor de escala
-              child: CustomPaint(
-                painter: _DrawingPainter(_drawingPoints),
-
-              ),
-            ),
-          ),
-      ],
+    return Container(
+      height: 750, // Ajusta este valor según sea necesario
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15.0),
+      ),
+      child: CustomPaint(
+        painter: _DrawingPainter(_drawingPoints),
+      ),
     );
   }
-
 }
+
 class _DrawingPainter extends CustomPainter {
   final List<DrawingPoint?> drawingPoints;
 
