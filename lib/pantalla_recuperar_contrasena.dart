@@ -5,9 +5,9 @@ class RecuperarPassword extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Recuperar contraseña'), // Puedes personalizar el título según tus necesidades
+        title: const Text('Recuperar contraseña'), // Puedes personalizar el título según tus necesidades
       ),
-      body: Center(
+      body: const Center(
         child: Text('Pantalla de Recuperar contraseña'), // Puedes personalizar la pantalla de registro según tus necesidades
       ),
     );

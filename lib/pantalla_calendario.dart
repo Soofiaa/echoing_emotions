@@ -21,7 +21,7 @@ class Calendario extends StatelessWidget {
         ),
           body:TableCalendar(
             locale:'es',
-            headerStyle: HeaderStyle(formatButtonVisible: false , titleCentered: true),
+            headerStyle: const HeaderStyle(formatButtonVisible: false , titleCentered: true),
             firstDay: DateTime.utc(2010, 10, 16),
             lastDay: DateTime.utc(2030, 3, 14),
             focusedDay: today,
