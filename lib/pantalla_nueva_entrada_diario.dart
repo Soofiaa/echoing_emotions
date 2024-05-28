@@ -2,7 +2,9 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:record/record.dart';
 import 'pantalla_entrada_dibujo.dart';
+import 'pantalla_grabar_audio.dart';
 
 class EntradaDiario extends StatefulWidget {
   @override
@@ -13,8 +15,11 @@ class _EntradaDiarioState extends State<EntradaDiario> {
   TextEditingController _textController = TextEditingController();
   TextEditingController _titleController = TextEditingController();
   final double _initialHeight = 100.0;
+  final GrabarAudio grabarAudio = GrabarAudio();
+
   List<DrawingPoint?> _drawingPoints = [];
   double _drawingScaleFactor = 0.55;
+  String? _audioPath;
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +58,7 @@ class _EntradaDiarioState extends State<EntradaDiario> {
                   child: TextField(
                     controller: _titleController,
                     style: TextStyle(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
+                      fontSize: 25.0,
                       fontFamily: 'AbrilFatface',
                     ),
                     inputFormatters: [
@@ -107,31 +111,52 @@ class _EntradaDiarioState extends State<EntradaDiario> {
                 SizedBox(height: 20),
                 if (_drawingPoints.isNotEmpty) _buildDrawingStack(),
                 SizedBox(height: 20),
-                // Espacio en blanco al final de la página
-                SizedBox(height: MediaQuery.of(context).size.height / 2), // Modificado
+                SizedBox(height: MediaQuery.of(context).size.height / 2),
               ],
             ),
           ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final result = await Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => EntradaDibujo(initialPoints: _drawingPoints)),
-          );
-          if (result != null) {
-            setState(() {
-              _drawingPoints = result;
-            });
-          }
-        },
-        child: Icon(Icons.edit),
-        backgroundColor: Colors.white,
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            onPressed: () async {
+              // Lógica para el botón de edición
+              final result = await Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => EntradaDibujo(initialPoints: _drawingPoints)),
+              );
+              if (result != null) {
+                setState(() {
+                  _drawingPoints = result;
+                });
+              }
+            },
+            child: Icon(Icons.edit),
+            backgroundColor: Colors.amber,
+          ),
+          SizedBox(width: 16), // Espacio entre los botones
+          FloatingActionButton(
+            onPressed: () async {
+              final result = await Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => GrabarAudio()),
+              );
+            },
+
+              child: Icon(
+                Icons.mic,
+              ),
+
+          ),
+        ],
       ),
     );
   }
+
+
 
   Widget _buildDrawingStack() {
     return Container(
@@ -142,21 +167,22 @@ class _EntradaDiarioState extends State<EntradaDiario> {
         borderRadius: BorderRadius.circular(15.0),
       ),
       child: CustomPaint(
-        painter: _DrawingPainter(_drawingPoints, scaleFactor: _drawingScaleFactor), // Modificado
+        painter: _DrawingPainter(_drawingPoints, scaleFactor: _drawingScaleFactor),
       ),
     );
   }
+
 }
 
 class _DrawingPainter extends CustomPainter {
   final List<DrawingPoint?> drawingPoints;
-  final double scaleFactor; // Nuevo
+  final double scaleFactor;
 
-  _DrawingPainter(this.drawingPoints, {this.scaleFactor = 1.0}); // Modificado
+  _DrawingPainter(this.drawingPoints, {this.scaleFactor = 1.0});
 
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.scale(scaleFactor); // Nuevo
+    canvas.scale(scaleFactor);
 
     for (int i = 0; i < drawingPoints.length - 1; i++) {
       if (drawingPoints[i] != null && drawingPoints[i + 1] != null) {
