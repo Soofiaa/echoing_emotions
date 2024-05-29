@@ -18,6 +18,32 @@ class _GrabarAudioState extends State<GrabarAudio> {
 
   String? recordingPath;
   bool isRecording = false, isPaused = false, isPlaying = false;
+  Duration position = Duration.zero;
+  Duration duration = Duration.zero;
+  Duration savedPosition = Duration.zero;
+
+  @override
+  void initState() {
+    super.initState();
+    audioPlayer.positionStream.listen((pos) {
+      setState(() {
+        position = pos;
+      });
+    });
+    audioPlayer.durationStream.listen((dur) {
+      setState(() {
+        duration = dur ?? Duration.zero;
+      });
+    });
+  }
+
+  String formatDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    final hours = twoDigits(duration.inHours);
+    final minutes = twoDigits(duration.inMinutes.remainder(60));
+    final seconds = twoDigits(duration.inSeconds.remainder(60));
+    return '$hours:$minutes:$seconds';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,25 +72,25 @@ class _GrabarAudioState extends State<GrabarAudio> {
           if (recordingPath != null)
             Column(
               children: [
-                MaterialButton(
-                  onPressed: () async {
-                    if (audioPlayer.playing) {
-                      await audioPlayer.stop();
-                      setState(() {
-                        isPlaying = false;
-                      });
-                    } else {
-                      await audioPlayer.setFilePath(recordingPath!);
-                      await audioPlayer.play();
-                      setState(() {
-                        isPlaying = true;
-                      });
-                    }
+                Slider(
+                  value: position.inSeconds.toDouble(),
+                  min: 0.0,
+                  max: duration.inSeconds.toDouble(),
+                  onChanged: (value) {
+                    final newPosition = Duration(seconds: value.toInt());
+                    audioPlayer.seek(newPosition);
+                    setState(() {
+                      position = newPosition;
+                    });
                   },
-
+                ),
+                Text(
+                  '${formatDuration(position)} / ${formatDuration(duration)}',
+                  style: const TextStyle(fontSize: 16),
                 ),
                 MaterialButton(
                   onPressed: () {
+                    Navigator.pop(context, recordingPath);
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Grabación guardada')),
                     );
@@ -79,8 +105,6 @@ class _GrabarAudioState extends State<GrabarAudio> {
                 ),
               ],
             ),
-          if (recordingPath == null)
-            const Text("No se encontró grabación"),
         ],
       ),
     );
@@ -148,14 +172,26 @@ class _GrabarAudioState extends State<GrabarAudio> {
         if (recordingPath != null)
           FloatingActionButton(
             onPressed: () async {
+              if (isPlaying) {
+                await audioPlayer.pause();
+                savedPosition = position; // Save the current position
+                setState(() {
+                  isPlaying = false;
+                });
+              } else {
                 await audioPlayer.setFilePath(recordingPath!);
+                if (position >= duration) {
+                  savedPosition = Duration.zero; // Restart from beginning if finished
+                }
+                await audioPlayer.seek(savedPosition); // Seek to the saved position
                 await audioPlayer.play();
                 setState(() {
                   isPlaying = true;
                 });
+              }
             },
             child: Icon(
-              Icons.play_arrow,
+              isPlaying ? Icons.pause : Icons.play_arrow,
               color: Colors.white,
             ),
             backgroundColor: Colors.green,

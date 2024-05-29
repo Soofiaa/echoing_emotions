@@ -2,9 +2,10 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:record/record.dart';
 import 'pantalla_entrada_dibujo.dart';
 import 'pantalla_grabar_audio.dart';
+import 'package:record/record.dart';
+import 'package:just_audio/just_audio.dart';
 
 class EntradaDiario extends StatefulWidget {
   @override
@@ -16,7 +17,8 @@ class _EntradaDiarioState extends State<EntradaDiario> {
   TextEditingController _titleController = TextEditingController();
   final double _initialHeight = 100.0;
   final GrabarAudio grabarAudio = GrabarAudio();
-
+  final AudioRecorder audioRecorder = AudioRecorder();
+  final AudioPlayer audioPlayer = AudioPlayer();
   List<DrawingPoint?> _drawingPoints = [];
   double _drawingScaleFactor = 0.55;
   String? _audioPath;
@@ -111,6 +113,7 @@ class _EntradaDiarioState extends State<EntradaDiario> {
                 SizedBox(height: 20),
                 if (_drawingPoints.isNotEmpty) _buildDrawingStack(),
                 SizedBox(height: 20),
+                if (_audioPath != null) _buildAudioPlayer(),
                 SizedBox(height: MediaQuery.of(context).size.height / 2),
               ],
             ),
@@ -144,19 +147,20 @@ class _EntradaDiarioState extends State<EntradaDiario> {
                 context,
                 MaterialPageRoute(builder: (context) => GrabarAudio()),
               );
+              if (result != null) {
+                setState(() {
+                  _audioPath = result;
+                });
+              }
             },
-
-              child: Icon(
-                Icons.mic,
-              ),
-
+            child: Icon(
+              Icons.mic,
+            ),
           ),
         ],
       ),
     );
   }
-
-
 
   Widget _buildDrawingStack() {
     return Container(
@@ -172,6 +176,51 @@ class _EntradaDiarioState extends State<EntradaDiario> {
     );
   }
 
+  Widget _buildAudioPlayer() {
+    return Column(
+      children: [
+        SizedBox(height: 20),
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 5,
+                blurRadius: 5,
+                offset: Offset(0, 3),
+              ),
+            ],
+          ),
+          padding: EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                onPressed: () async {
+                  // Reproduce o pausa el audio
+                  if (await audioRecorder.isRecording()) return;
+                  if (_audioPath != null) {
+                    final playerState = audioPlayer.playerState;
+                    if (playerState.playing) {
+                      await audioPlayer.pause();
+                    } else {
+                      await audioPlayer.setFilePath(_audioPath!);
+                      await audioPlayer.play();
+                    }
+                  }
+                },
+                icon: Icon(audioPlayer.playing ? Icons.pause : Icons.play_arrow),
+              ),
+              SizedBox(width: 8),
+              Text('Reproducir audio'),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
 }
 
 class _DrawingPainter extends CustomPainter {
