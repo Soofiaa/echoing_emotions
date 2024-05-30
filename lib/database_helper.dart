@@ -25,7 +25,7 @@ class DatabaseHelper {
       onCreate: (db, version) async {
         await db.execute(
           'CREATE TABLE mitabla('
-              'id INTEGER PRIMARY KEY,'
+              'id INTEGER PRIMARY KEY AUTOINCREMENT,'
               'nombre TEXT,'
               'apellido TEXT,'
               'fechaNacimiento TEXT,'
@@ -37,33 +37,35 @@ class DatabaseHelper {
   }
 
   Future<void> insertarUsuario(Usuarios usuario) async {
-  final db = await database;
-  await db.insert(
-  'mitabla',
-  {
-    'id':usuario.id,
-    'nombre': usuario.nombre,
-    'apellido':usuario.apellido,
-    'fechaNacimiento':usuario.fechaNacimiento,
-    'correoElectronico':usuario.correoElectronico,
-    'password':usuario.password
-  },
-  conflictAlgorithm: ConflictAlgorithm.replace,
-  );
+    final db = await database;
+    await db.insert(
+      'mitabla',
+      {
+        'nombre': usuario.nombre,
+        'apellido': usuario.apellido,
+        'fechaNacimiento': usuario.fechaNacimiento,
+        'correoElectronico': usuario.correoElectronico,
+        'password': usuario.password,
+      },
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 
+
   Future<List<Usuarios>> obtenerUsuarios() async {
-  final db = await database;
-  final usuariosMap = await db.query('mitabla');
-  return usuariosMap.map((map) => Usuarios(
-    id: map['id'] as int,
-    nombre: map['nombre'] as String,
-    apellido: map['apellido'] as String,
-    fechaNacimiento: map['fechaNacimiento'] as String,
-    correoElectronico: map['correoElectronico'] as String,
-    password: map['password'] as String,
-  )).toList();
+    final db = await database;
+    final usuariosMap = await db.query('mitabla');
+    return usuariosMap.map((map) => Usuarios(
+      id: map['id'] as int, // Asegúrate de que 'id' esté definido en la consulta
+      nombre: map['nombre'] as String,
+      apellido: map['apellido'] as String,
+      fechaNacimiento: map['fechaNacimiento'] as String,
+      correoElectronico: map['correoElectronico'] as String,
+      password: map['password'] as String,
+    )).toList();
   }
+
+
 
   Future<void> eliminarBaseDeDatos() async {
     final path = await getDatabasesPath();

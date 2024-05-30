@@ -126,23 +126,46 @@ class LoginScreen extends StatelessWidget {
             //boton de prueba
             ElevatedButton(
               onPressed: () async {
+                //eliminar bases de datos
+                /*
+                await DatabaseHelper.instance.database;
+                await DatabaseHelper.instance.eliminarBaseDeDatos();
+                await DBHelper_calendario.instance.eliminarBaseDeDatos();
+                */
+                //
+
+
+                final nuevoUser = Usuarios(
+                    id:1,
+                    nombre: 'nombre',
+                    apellido: 'apellido',
+                    fechaNacimiento: 'fechaNacimiento',
+                    correoElectronico: 'correoElectronico',
+                    password: 'password'
+                );
+
+                await DatabaseHelper.instance.database;
+                await DatabaseHelper.instance.insertarUsuario(nuevoUser);
+
                 await DatabaseHelper.instance.database;
                 final usuarios = await DatabaseHelper.instance.obtenerUsuarios();
                 for (final usuario in usuarios) {
-                  final nombre = usuario.nombre; // Access the 'nombre' property directly
-                  print('nombre: $nombre');
+                  final nombre = usuario.nombre;
+                  final id = usuario.id;// Access the 'nombre' property directly
+                  print('nombre: $nombre , id: $id');
                 }
-                /*final nuevaEntrada = Entrada(
-                  id_entrada: 2,
+                final nuevaEntrada = Entrada(
+                  id_entrada:1,
                   id_usuario:1,
                   titulo: 'aaaa',
                   contenido: 'aaaa...',
                   dibujo: 'aaa',
                   audio: 'aaa',
                   fecha: '2024-05-28',
-                );*/
-                //await DBHelper_calendario.instance.databaseC;
-                //await DBHelper_calendario.instance.insertarEntrada(nuevaEntrada);
+                );
+
+                await DBHelper_calendario.instance.databaseC;
+                await DBHelper_calendario.instance.insertarEntrada(nuevaEntrada);
 
                 final entradasGuardadas = await dbCalendario.obtenerEntradas();
                 for (final Ens  in entradasGuardadas) {

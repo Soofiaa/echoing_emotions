@@ -25,7 +25,7 @@ class DBHelper_calendario{
         onCreate: (db, version) async {
           await db.execute('''
             CREATE TABLE misEntradas (
-            id_entrada INTEGER PRIMARY KEY,
+            id_entrada INTEGER PRIMARY KEY AUTOINCREMENT,
             id_usuario INTEGER,
             titulo TEXT,
             contenido TEXT,
