@@ -23,7 +23,7 @@ class DatabaseHelper {
       path,
       version: 2,
       onCreate: (db, version) async {
-        await db.execute(
+        await db.execute(     //tabla de registro de usuarios
           'CREATE TABLE mitabla('
               'id INTEGER PRIMARY KEY AUTOINCREMENT,'
               'nombre TEXT,'

@@ -22,6 +22,7 @@ class _EntradaDiarioState extends State<EntradaDiario> {
   List<DrawingPoint?> _drawingPoints = [];
   double _drawingScaleFactor = 0.55;
   String? _audioPath;
+  DateTime? _entryDate; //en ese se guarda la fecha
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +115,11 @@ class _EntradaDiarioState extends State<EntradaDiario> {
                 if (_drawingPoints.isNotEmpty) _buildDrawingStack(),
                 SizedBox(height: 20),
                 if (_audioPath != null) _buildAudioPlayer(),
-                SizedBox(height: MediaQuery.of(context).size.height / 2),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: _saveEntry,
+                  child: Text('Guardar'),
+                ),
               ],
             ),
           ),
@@ -126,7 +131,6 @@ class _EntradaDiarioState extends State<EntradaDiario> {
         children: [
           FloatingActionButton(
             onPressed: () async {
-              // Lógica para el botón de edición
               final result = await Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => EntradaDibujo(initialPoints: _drawingPoints)),
@@ -140,7 +144,7 @@ class _EntradaDiarioState extends State<EntradaDiario> {
             child: Icon(Icons.edit),
             backgroundColor: Colors.amber,
           ),
-          SizedBox(width: 16), // Espacio entre los botones
+          SizedBox(width: 16),
           FloatingActionButton(
             onPressed: () async {
               final result = await Navigator.push(
@@ -159,6 +163,26 @@ class _EntradaDiarioState extends State<EntradaDiario> {
           ),
         ],
       ),
+    );
+  }
+
+  void _saveEntry() {
+    final title = _titleController.text;
+    final content = _textController.text;
+    final drawingPoints = _drawingPoints;
+    final audioPath = _audioPath;
+    final entryDate = DateTime.now(); // Asignar la fecha actual
+
+    // Aquí puedes agregar la lógica para guardar la entrada
+    print('Título: $title');
+    print('Contenido: $content');
+    print('Puntos de dibujo: $drawingPoints');
+    print('Ruta de audio: $audioPath');
+    print('Fecha: $entryDate'); // Mostrar la fecha
+
+    // Mostrar un mensaje de éxito
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Entrada guardada exitosamente')),
     );
   }
 
@@ -199,7 +223,6 @@ class _EntradaDiarioState extends State<EntradaDiario> {
             children: [
               IconButton(
                 onPressed: () async {
-                  // Reproduce o pausa el audio
                   if (await audioRecorder.isRecording()) return;
                   if (_audioPath != null) {
                     final playerState = audioPlayer.playerState;
@@ -246,4 +269,3 @@ class _DrawingPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
-
