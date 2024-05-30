@@ -42,13 +42,13 @@ dependencies:
   date_format: ^2.0.2
   flutter_localizations:
     sdk: flutter
-  
+  intl: any
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
 
 
-  intl: ^0.18.1  # Agregado para el manejo de fechas
+  #intl: ^0.18.1  # Agregado para el manejo de fechas
   add_2_calendar: ^3.0.1
   sqflite: ^2.3.3+1
 
