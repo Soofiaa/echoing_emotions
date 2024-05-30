@@ -65,6 +65,21 @@ class DatabaseHelper {
     )).toList();
   }
 
+  Future iniciarUsuario(String correo,String pass) async {
+    final db = await database;
+    final result = await db.query(
+      'mitabla',
+      where: 'correoElectronico =? AND password = ?',
+      whereArgs: [correo,pass],
+    );
+    //print(result);
+    if(result.isNotEmpty){
+      final id = result.first['id'] as int;
+      //print(id);
+      return id;
+    }
+    return 0;
+  }
 
 
   Future<void> eliminarBaseDeDatos() async {

@@ -16,6 +16,9 @@ Falta revisar que las credenciales estén correctas al iniciar sesión
 class LoginScreen extends StatelessWidget {
   final dbHelper = DatabaseHelper.instance;
   final dbCalendario = DBHelper_calendario.instance;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,6 +55,7 @@ class LoginScreen extends StatelessWidget {
 
             SizedBox(height: 24.0),
             TextFormField(
+              controller: emailController,
               style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 hintText: 'Correo electrónico',
@@ -63,10 +67,12 @@ class LoginScreen extends StatelessWidget {
                   borderSide: BorderSide.none,
                 ),
                 prefixIcon: Icon(Icons.email, color: Colors.white),
+
               ),
             ),
             SizedBox(height: 16.0),
             TextFormField(
+              controller: passwordController,
               style: TextStyle(color: Colors.white),
               obscureText: true,
               decoration: InputDecoration(
@@ -102,13 +108,25 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 24.0), // Espacio adicional entre el botón "¿Olvidaste la contraseña?" y el botón "Iniciar sesión"
-            ElevatedButton(
-              onPressed: () {
+            ElevatedButton (
+              onPressed: () async {
+                String email = emailController.text;
+                String password = passwordController.text;
+
+                await DatabaseHelper.instance.database;
+                final int idUser = await DatabaseHelper.instance.iniciarUsuario(email, password);
                 // Navegar a la pantalla de inicio después del inicio de sesión exitoso al presionar el botón
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Home()),
-                );
+                if(idUser!=0){
+                  print(idUser);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Home()),
+                  );
+                }
+                else{
+                  print('cuenta no existe');
+                }
+
               },
               child: Text(
                 'Iniciar sesión',
