@@ -358,7 +358,11 @@ packages:
     source: hosted
     version: "1.0.0"
   path:
+<<<<<<< Updated upstream
     dependency: "direct main"
+=======
+    dependency: "direct dev"
+>>>>>>> Stashed changes
     description:
       name: path
       sha256: "087ce49c3f0dc39180befefc60fdb4acd8f8620e5682fe2476afd0b3688bb4af"
@@ -586,6 +590,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.0"
+  sqflite:
+    dependency: "direct dev"
+    description:
+      name: sqflite
+      sha256: a43e5a27235518c03ca238e7b4732cf35eabe863a369ceba6cbefa537a66f16d
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.3+1"
+  sqflite_common:
+    dependency: transitive
+    description:
+      name: sqflite_common
+      sha256: "3da423ce7baf868be70e2c0976c28a1bb2f73644268b7ffa7d2e08eab71f16a4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.5.4"
   stack_trace:
     dependency: transitive
     description:
@@ -674,6 +694,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "13.0.0"
+<<<<<<< Updated upstream
   web:
     dependency: transitive
     description:
@@ -682,6 +703,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.1"
+=======
+>>>>>>> Stashed changes
   win32:
     dependency: transitive
     description:
@@ -700,4 +723,8 @@ packages:
     version: "1.0.4"
 sdks:
   dart: ">=3.3.4 <4.0.0"
+<<<<<<< Updated upstream
   flutter: ">=3.19.0"
+=======
+  flutter: ">=3.16.6"
+>>>>>>> Stashed changes

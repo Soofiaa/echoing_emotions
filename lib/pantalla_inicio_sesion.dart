@@ -1,14 +1,21 @@
 import 'package:echoing_emotions/pantalla_inicio_despues_de_iniciar.dart';
+import 'package:echoing_emotions/usuarios.dart';
 import 'package:flutter/material.dart';
+import 'entrada.dart';
+import 'package:echoing_emotions/entrada.dart';
 import 'pantalla_registro.dart'; // Importamos la pantalla de registro
 import 'pantalla_recuperar_contrasena.dart'; // Importamos la pantalla de recuperación de contraseña
 import 'pantalla_mi_perfil.dart'; // Importamos la pantalla de inicio después del inicio de sesión exitoso
-
+import 'package:sqflite/sqflite.dart';
+import 'database_helper.dart';
+import 'basedatos_calen_helper.dart';
 /*
 Falta revisar que las credenciales estén correctas al iniciar sesión
  */
 
 class LoginScreen extends StatelessWidget {
+  final dbHelper = DatabaseHelper.instance;
+  final dbCalendario = DBHelper_calendario.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,6 +121,51 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             ),
+
+
+            //boton de prueba
+            ElevatedButton(
+              onPressed: () async {
+                await DatabaseHelper.instance.database;
+                final usuarios = await DatabaseHelper.instance.obtenerUsuarios();
+                for (final usuario in usuarios) {
+                  final nombre = usuario.nombre; // Access the 'nombre' property directly
+                  print('nombre: $nombre');
+                }
+                /*final nuevaEntrada = Entrada(
+                  id_entrada: 2,
+                  id_usuario:1,
+                  titulo: 'aaaa',
+                  contenido: 'aaaa...',
+                  dibujo: 'aaa',
+                  audio: 'aaa',
+                  fecha: '2024-05-28',
+                );*/
+                //await DBHelper_calendario.instance.databaseC;
+                //await DBHelper_calendario.instance.insertarEntrada(nuevaEntrada);
+
+                final entradasGuardadas = await dbCalendario.obtenerEntradas();
+                for (final Ens  in entradasGuardadas) {
+                  final titulo = Ens.titulo; // Access the 'nombre' property directly
+                  final dibujo = Ens.dibujo;
+                  print('titulo: $titulo,dibujo: $dibujo');
+                }
+              },
+              child: Text(
+                'usuario',
+                style: TextStyle(color: Colors.black87),
+              ),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(vertical: 16.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+            ),
+            //fin boton prueba
+
+
+
             SizedBox(height: 12.0), // Espacio adicional entre los botones
             TextButton(
               onPressed: () {

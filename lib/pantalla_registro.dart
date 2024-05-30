@@ -1,12 +1,16 @@
+import 'package:echoing_emotions/usuarios.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'pantalla_inicio_sesion.dart'; // Importamos la pantalla de inicio de sesión
 import 'package:date_format/date_format.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:sqflite/sqflite.dart';
+import 'database_helper.dart';
 
 
 class RegistrationScreen extends StatefulWidget {
+  final dbHelper = DatabaseHelper.instance;
   @override
   _RegistrationScreenState createState() => _RegistrationScreenState();
 }
@@ -235,8 +239,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
               const SizedBox(height: 24.0),
               ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
+                onPressed: () async {
+                  if (_formKey.currentState!.validate())  {
                     // Crear instancia de User con los datos del formulario
                     User newUser = User(
                       nombre: _nombreController.text,
@@ -246,6 +250,22 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       contrasenya: _passwordController.text,
                     );
                     // Aquí puedes agregar la lógica para guardar el usuario o enviarlo a tu backend
+                    final usuario = Usuarios(
+                        id:1,
+                        nombre:newUser.nombre,
+                        apellido:newUser.apellido,
+                        fechaNacimiento: newUser.fechaNacimiento,
+                        correoElectronico: newUser.correoElectronico,
+                        password: newUser.contrasenya
+                    );
+
+
+
+                    // Inserta un nombre (puedes hacer esto en el manejador del botón)
+                    await DatabaseHelper.instance.database;
+                    await DatabaseHelper.instance.insertarUsuario(usuario);
+
+
                     if (kDebugMode) {
                       print('User registered: ${newUser.nombre}, ${newUser.apellido}, ${newUser.fechaNacimiento}, ${newUser.correoElectronico}');
                     }
@@ -285,7 +305,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     );
   }
 }
-
 class User {
   String nombre;
   String apellido;
