@@ -66,6 +66,7 @@ class _GrabarAudioState extends State<GrabarAudio> {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: Column(
+
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
