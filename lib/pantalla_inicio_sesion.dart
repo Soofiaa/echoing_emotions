@@ -3,16 +3,16 @@ import 'package:echoing_emotions/usuarios.dart';
 import 'package:flutter/material.dart';
 import 'entrada.dart';
 import 'package:echoing_emotions/entrada.dart';
-import 'pantalla_registro.dart'; // Importamos la pantalla de registro
-import 'pantalla_recuperar_contrasena.dart'; // Importamos la pantalla de recuperación de contraseña
-import 'pantalla_mi_perfil.dart'; // Importamos la pantalla de inicio después del inicio de sesión exitoso
+import 'pantalla_registro.dart';// Importamos la pantalla de registro
+import 'pantalla_recuperar_contrasena.dart';// Importamos la pantalla de recuperación
+import 'pantalla_mi_perfil.dart';  // Importamos la pantalla de inicio después del inicio de sesión exitoso
 import 'package:sqflite/sqflite.dart';
 import 'database_helper.dart';
 import 'basedatos_calen_helper.dart';
+import 'usuario_sesion.dart'; // Importamos el Singleton para la sesión de usuario
 /*
 Falta revisar que las credenciales estén correctas al iniciar sesión
  */
-
 class LoginScreen extends StatelessWidget {
   final dbHelper = DatabaseHelper.instance;
   final dbCalendario = DBHelper_calendario.instance;
@@ -52,7 +52,6 @@ class LoginScreen extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
-
             SizedBox(height: 24.0),
             TextFormField(
               controller: emailController,
@@ -67,7 +66,6 @@ class LoginScreen extends StatelessWidget {
                   borderSide: BorderSide.none,
                 ),
                 prefixIcon: Icon(Icons.email, color: Colors.white),
-
               ),
             ),
             SizedBox(height: 16.0),
@@ -92,7 +90,6 @@ class LoginScreen extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: TextButton(
                 onPressed: () {
-                  // Navegar a la pantalla de recuperación de contraseña al presionar el botón
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => RecuperarPassword()),
@@ -107,8 +104,8 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 24.0), // Espacio adicional entre el botón "¿Olvidaste la contraseña?" y el botón "Iniciar sesión"
-            ElevatedButton (
+            SizedBox(height: 24.0),
+            ElevatedButton(
               onPressed: () async {
                 String email = emailController.text;
                 String password = passwordController.text;
@@ -118,15 +115,26 @@ class LoginScreen extends StatelessWidget {
                 // Navegar a la pantalla de inicio después del inicio de sesión exitoso al presionar el botón
                 if(idUser!=0){
                   print(idUser);
+
+                  // id global como esta hecho hay que agregar el usuarios a global
+
+                  UsuarioSesion().usuario = Usuarios(
+                    id: 69,
+                    nombre: '',
+                    apellido: '',
+                    fechaNacimiento: '',
+                    correoElectronico: email,
+                    password: password,
+                  );
+
+                  //
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => Home()),
                   );
-                }
-                else{
+                } else {
                   print('cuenta no existe');
                 }
-
               },
               child: Text(
                 'Iniciar sesión',
@@ -139,10 +147,7 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             ),
-
-
-            //boton de prueba
-            ElevatedButton(
+            ElevatedButton( //boton de prueba
               onPressed: () async {
                 //eliminar bases de datos
                 /*
@@ -152,29 +157,28 @@ class LoginScreen extends StatelessWidget {
                 */
                 //
 
-
                 final nuevoUser = Usuarios(
-                    id:1,
-                    nombre: 'nombre',
-                    apellido: 'apellido',
-                    fechaNacimiento: 'fechaNacimiento',
-                    correoElectronico: 'correoElectronico',
-                    password: 'password'
+                  id: 1,
+                  nombre: 'nombre',
+                  apellido: 'apellido',
+                  fechaNacimiento: 'fechaNacimiento',
+                  correoElectronico: 'correoElectronico',
+                  password: 'password',
                 );
 
                 await DatabaseHelper.instance.database;
                 await DatabaseHelper.instance.insertarUsuario(nuevoUser);
 
-                await DatabaseHelper.instance.database;
                 final usuarios = await DatabaseHelper.instance.obtenerUsuarios();
                 for (final usuario in usuarios) {
                   final nombre = usuario.nombre;
-                  final id = usuario.id;// Access the 'nombre' property directly
+                  final id = usuario.id;
                   print('nombre: $nombre , id: $id');
                 }
+
                 final nuevaEntrada = Entrada(
-                  id_entrada:1,
-                  id_usuario:1,
+                  id_entrada: 1,
+                  id_usuario: 1,
                   titulo: 'aaaa',
                   contenido: 'aaaa...',
                   dibujo: 'aaa',
@@ -186,10 +190,10 @@ class LoginScreen extends StatelessWidget {
                 await DBHelper_calendario.instance.insertarEntrada(nuevaEntrada);
 
                 final entradasGuardadas = await dbCalendario.obtenerEntradas();
-                for (final Ens  in entradasGuardadas) {
-                  final titulo = Ens.titulo; // Access the 'nombre' property directly
+                for (final Ens in entradasGuardadas) {
+                  final titulo = Ens.titulo;
                   final dibujo = Ens.dibujo;
-                  print('titulo: $titulo,dibujo: $dibujo');
+                  print('titulo: $titulo, dibujo: $dibujo');
                 }
               },
               child: Text(
@@ -203,14 +207,9 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             ),
-            //fin boton prueba
-
-
-
-            SizedBox(height: 12.0), // Espacio adicional entre los botones
+            SizedBox(height: 12.0),
             TextButton(
               onPressed: () {
-                // Navegar a la pantalla de registro al presionar el botón
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => RegistrationScreen()),

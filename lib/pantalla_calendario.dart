@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'usuario_sesion.dart'; // Importamos el Singleton para la sesión de usuario
+
 
 
 class Calendario extends StatelessWidget {
@@ -8,6 +10,9 @@ class Calendario extends StatelessWidget {
   Widget build(BuildContext context) {
     initializeDateFormatting();
     DateTime today = DateTime.now();
+    // Imprime el ID del usuario usando el Singleton
+    int? userId = UsuarioSesion().id;
+    print('El ID del usuario es: $userId');
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -27,6 +32,7 @@ class Calendario extends StatelessWidget {
             focusedDay: today,
           )
       ),
+
 
     );
   }
