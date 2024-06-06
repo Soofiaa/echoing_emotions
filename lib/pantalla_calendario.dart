@@ -87,7 +87,7 @@ class _CalendarioState extends State<Calendario> {
                     color: Colors.transparent, // Make header background transparent
                   ),
                 ),
-                calendarStyle: CalendarStyle(
+                calendarStyle: const CalendarStyle(
                   outsideDaysVisible: false,
                   todayDecoration: BoxDecoration(
                     color: Colors.blue,
