@@ -68,7 +68,7 @@ class _EntradaDiarioState extends State<EntradaDiario> {
                       LengthLimitingTextInputFormatter(50),
                     ],
                     decoration: InputDecoration(
-                      hintText: 'Escribe el título aquí',
+                      hintText: 'Título',
                       hintStyle: TextStyle(
                         fontFamily: 'AbrilFatface',
                       ),
@@ -103,7 +103,7 @@ class _EntradaDiarioState extends State<EntradaDiario> {
                         maxLines: null,
                         keyboardType: TextInputType.multiline,
                         decoration: InputDecoration(
-                          hintText: 'Escribe aquí',
+                          hintText: '¿Cómo te sientes hoy?',
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.all(20.0),
                         ),

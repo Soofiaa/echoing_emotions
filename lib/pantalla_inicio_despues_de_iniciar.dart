@@ -1,10 +1,23 @@
+// lib/home.dart
 import 'package:flutter/material.dart';
 import 'pantalla_calendario.dart'; // Importa la pantalla del calendario
 import 'pantalla_nueva_entrada_diario.dart'; // Importa la pantalla de entrada del diario
 import 'pantalla_mi_perfil.dart'; // Importa la pantalla HomeAfterLogin
+import 'pantalla_emociones.dart';
 import 'package:intl/intl.dart';
 
 class Home extends StatelessWidget {
+  final List<Map<String, String>> emociones = [
+    {'emoji': '😨', 'name': 'Miedo'},
+    {'emoji': '😢', 'name': 'Tristeza'},
+    {'emoji': '😠', 'name': 'Ira'},
+    {'emoji': '😊', 'name': 'Alegría'},
+    {'emoji': '😲', 'name': 'Sorpresa'},
+    {'emoji': '😒', 'name': 'Desagrado'},
+    {'emoji': '😳', 'name': 'Vergüenza'},
+    {'emoji': '😮', 'name': 'Asombro'},
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,27 +29,86 @@ class Home extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-            padding: const EdgeInsets.all(80.0),
-            child: Text(
-              DateFormat('dd-MM-yyyy').format(DateTime.now()),
-              style: TextStyle(
+            padding: const EdgeInsets.all(20.0),
+            child: Container(
+              padding: EdgeInsets.all(20.0),
+              decoration: BoxDecoration(
                 color: Colors.white,
-                fontSize: 30.0,
-                fontWeight: FontWeight.bold,
+                borderRadius: BorderRadius.circular(20.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 10.0,
+                    offset: Offset(0, 2),
+                  ),
+                ],
               ),
-              textAlign: TextAlign.center,
+              child: Column(
+                children: [
+                  Text(
+                    DateFormat('dd-MM-yyyy').format(DateTime.now()),
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 30.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 20.0),
+                  Text(
+                    'Meditar puede ayudarte a dormir mejor.',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(50.0),
-            child: Text(
-              'Meditar puede ayudarte a dormir mejor.',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => EmocionesUsuario()),
+                );
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.white), // Establece el color de fondo del botón blanco
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0), // Hace que el botón tenga esquinas redondeadas
+                  ),
+                ),
               ),
-              textAlign: TextAlign.center,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                child: Column(
+                  children: [
+                    Text(
+                      '¿Cómo te sientes?',
+                      style: TextStyle(color: Colors.black, fontSize: 18.0),
+                    ),
+                    SizedBox(height: 10.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: emociones.map((emocion) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                          child: Text(
+                            emocion['emoji']!,
+                            style: TextStyle(fontSize: 20.0),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
           Expanded(
