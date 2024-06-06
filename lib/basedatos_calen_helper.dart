@@ -23,17 +23,16 @@ class DBHelper_calendario{
         path,
         version: 2,
         onCreate: (db, version) async {
-          await db.execute('''
-            CREATE TABLE misEntradas (
-            id_entrada INTEGER PRIMARY KEY AUTOINCREMENT,
-            id_usuario INTEGER,
-            titulo TEXT,
-            contenido TEXT,
-            dibujo TEXT,
-            audio TEXT,
-            fecha TEXT
-          )
-        ''');
+          await db.execute(
+            'CREATE TABLE misEntradas ('
+            'id_entrada INTEGER PRIMARY KEY AUTOINCREMENT,'
+            'id_usuario INTEGER,'
+            'titulo TEXT,'
+            'contenido TEXT,'
+            'dibujo TEXT,'
+            'audio TEXT,'
+            'fecha TEXT)'
+        );
         }
     );
   }
@@ -42,7 +41,7 @@ class DBHelper_calendario{
     await db.insert(
       'misEntradas',
       {
-        'id_entrada':entrada.id_entrada,
+        //'id_entrada':entrada.id_entrada,
         'id_usuario':entrada.id_usuario,
         'titulo':entrada.titulo,
         'contenido':entrada.contenido,
@@ -68,6 +67,15 @@ class DBHelper_calendario{
     )).toList();
   }
 
+  Future buscarFecha(int Id_User,String fecha) async {
+    final db = await databaseC;
+    final result = await db.query(
+      'misEntradas',
+      where: 'id_usuario =? AND fecha = ?',
+      whereArgs: [Id_User,fecha],
+    );
+    return result;
+  }
   Future<void> eliminarBaseDeDatos() async {
     final path = await getDatabasesPath();
     final databasePath = join(path, 'misEntradas.db');
