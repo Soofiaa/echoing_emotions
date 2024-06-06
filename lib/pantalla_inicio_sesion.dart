@@ -150,11 +150,12 @@ class LoginScreen extends StatelessWidget {
             ElevatedButton( //boton de prueba
               onPressed: () async {
                 //eliminar bases de datos
-                /*
-                await DatabaseHelper.instance.database;
+
+                /*await DatabaseHelper.instance.database;
                 await DatabaseHelper.instance.eliminarBaseDeDatos();
-                await DBHelper_calendario.instance.eliminarBaseDeDatos();
-                */
+                await DBHelper_calendario.instance.databaseC;
+                await DBHelper_calendario.instance.eliminarBaseDeDatos();*/
+
                 //
 
                 final nuevoUser = Usuarios(
@@ -166,8 +167,8 @@ class LoginScreen extends StatelessWidget {
                   password: 'password',
                 );
 
-                await DatabaseHelper.instance.database;
-                await DatabaseHelper.instance.insertarUsuario(nuevoUser);
+                //await DatabaseHelper.instance.database;
+                //await DatabaseHelper.instance.insertarUsuario(nuevoUser);
 
                 final usuarios = await DatabaseHelper.instance.obtenerUsuarios();
                 for (final usuario in usuarios) {
@@ -179,15 +180,15 @@ class LoginScreen extends StatelessWidget {
                 final nuevaEntrada = Entrada(
                   id_entrada: 1,
                   id_usuario: 1,
-                  titulo: 'aaaa',
-                  contenido: 'aaaa...',
-                  dibujo: 'aaa',
-                  audio: 'aaa',
+                  titulo: 'cccc',
+                  contenido: 'cccc...',
+                  dibujo: 'ccc',
+                  audio: 'ccc',
                   fecha: '2024-05-28',
                 );
 
-                await DBHelper_calendario.instance.databaseC;
-                await DBHelper_calendario.instance.insertarEntrada(nuevaEntrada);
+                //await DBHelper_calendario.instance.databaseC;
+                //await DBHelper_calendario.instance.insertarEntrada(nuevaEntrada);
 
                 final entradasGuardadas = await dbCalendario.obtenerEntradas();
                 for (final Ens in entradasGuardadas) {
@@ -195,6 +196,9 @@ class LoginScreen extends StatelessWidget {
                   final dibujo = Ens.dibujo;
                   print('titulo: $titulo, dibujo: $dibujo');
                 }
+
+                final entradas = await DBHelper_calendario.instance.buscarFecha(1,'2024-05-28');
+                print(entradas);
               },
               child: Text(
                 'usuario',

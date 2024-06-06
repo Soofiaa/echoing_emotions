@@ -1,11 +1,11 @@
 class Entrada {
-  int id_entrada;
-  int id_usuario;
-  String titulo;
-  String contenido;
-  String dibujo;
-  String audio;
-  String fecha;
+  final int id_entrada;
+  final int id_usuario;
+  final String titulo;
+  final String contenido;
+  final String dibujo;
+  final String audio;
+  final String fecha;
 
   Entrada({
     required this.id_entrada,
