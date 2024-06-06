@@ -76,6 +76,17 @@ class DBHelper_calendario{
     );
     return result;
   }
+
+  Future buscarUsuario(int Id_User) async {
+    final db = await databaseC;
+    final result = await db.query(
+      'misEntradas',
+      where: 'id_usuario =?',
+      whereArgs: [Id_User],
+    );
+    return result;
+  }
+
   Future<void> eliminarBaseDeDatos() async {
     final path = await getDatabasesPath();
     final databasePath = join(path, 'misEntradas.db');

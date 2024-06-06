@@ -147,7 +147,8 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             ),
-            ElevatedButton( //boton de prueba
+
+            /*ElevatedButton( //boton de prueba
               onPressed: () async {
                 //eliminar bases de datos
 
@@ -199,6 +200,10 @@ class LoginScreen extends StatelessWidget {
 
                 final entradas = await DBHelper_calendario.instance.buscarFecha(1,'2024-05-28');
                 print(entradas);
+
+                await DBHelper_calendario.instance.databaseC;
+                final ent =await DBHelper_calendario.instance.buscarUsuario(1);
+                print(ent);
               },
               child: Text(
                 'usuario',
@@ -210,7 +215,7 @@ class LoginScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8.0),
                 ),
               ),
-            ),
+            ),*/
             SizedBox(height: 12.0),
             TextButton(
               onPressed: () {
