@@ -6,8 +6,14 @@ import 'pantalla_entrada_dibujo.dart';
 import 'pantalla_grabar_audio.dart';
 import 'package:record/record.dart';
 import 'package:just_audio/just_audio.dart';
+import 'pantalla_emociones.dart';
 
 class EntradaDiario extends StatefulWidget {
+  final String emocion;
+  final String emoji;
+
+  EntradaDiario({required this.emocion, required this.emoji});
+
   @override
   _EntradaDiarioState createState() => _EntradaDiarioState();
 }
@@ -43,6 +49,21 @@ class _EntradaDiarioState extends State<EntradaDiario> {
           child: SingleChildScrollView(
             child: Column(
               children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      widget.emoji,
+                      style: TextStyle(fontSize: 40.0), // Cambia el tamaño de la carita aquí
+                    ),
+                    SizedBox(width: 10.0),
+                    Text(
+                      widget.emocion,
+                      style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
                 Container(
                   width: double.infinity,
                   padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),

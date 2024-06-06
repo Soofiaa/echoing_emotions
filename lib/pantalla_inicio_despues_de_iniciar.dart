@@ -74,7 +74,7 @@ class Home extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => EmocionesUsuario()),
+                  MaterialPageRoute(builder: (context) => EmocionesUsuario()), // No se pasan parámetros aquí
                 );
               },
               style: ButtonStyle(
@@ -146,7 +146,7 @@ class Home extends StatelessWidget {
                             // Navega a la pantalla de entrada del diario al presionar el botón de agregar entrada al diario
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => EntradaDiario()),
+                              MaterialPageRoute(builder: (context) => EntradaDiario(emocion: 'Seleccionar ', emoji: '')), // Aquí debe pasar valores predeterminados si no hay emoción seleccionada
                             );
                           },
                           style: ButtonStyle(

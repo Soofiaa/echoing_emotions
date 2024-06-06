@@ -1,5 +1,6 @@
 // lib/emociones_usuario.dart
 import 'package:flutter/material.dart';
+import 'pantalla_nueva_entrada_diario.dart'; // Importa la pantalla de entrada del diario
 
 class EmocionesUsuario extends StatefulWidget {
   @override
@@ -22,11 +23,19 @@ class _EmocionesUsuarioState extends State<EmocionesUsuario> {
 
   void guardarEmocion() {
     if (seleccionada != null) {
-      // Aquí puedes agregar la lógica para guardar la emoción seleccionada
-      // Por ejemplo, guardarla en una base de datos o enviar a un servidor
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => EntradaDiario(
+            emocion: seleccionada!,
+            emoji: emociones.firstWhere((e) => e['name'] == seleccionada)['emoji']!,
+          ),
+        ),
+      );
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Emoción guardada: $seleccionada'),
+          content: Text('Por favor, seleccione una emoción'),
         ),
       );
     }
