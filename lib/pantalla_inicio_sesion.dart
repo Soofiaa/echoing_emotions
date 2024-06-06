@@ -119,7 +119,7 @@ class LoginScreen extends StatelessWidget {
                   // id global como esta hecho hay que agregar el usuarios a global
 
                   UsuarioSesion().usuario = Usuarios(
-                    id: 69,
+                    id: idUser,
                     nombre: '',
                     apellido: '',
                     fechaNacimiento: '',
