@@ -8,6 +8,32 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sqflite/sqflite.dart';
 import 'database_helper.dart';
 
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Echoing Emotions',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: RegistrationScreen(),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('en', ''), // Inglés
+        const Locale('es', ''), // Español
+      ],
+      locale: const Locale('es', ''), // Establecer español como idioma predeterminado
+    );
+  }
+}
 
 class RegistrationScreen extends StatefulWidget {
   final dbHelper = DatabaseHelper.instance;
@@ -52,6 +78,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       initialDate: DateTime.now(),
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
+      locale: const Locale("es", "ES"), // Asegurar que el calendario esté en español
     );
     if (picked != null) {
       setState(() {
@@ -127,7 +154,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     if (value.length < 6) {
       return 'La contraseña debe tener al menos 6 caracteres';
     }
-    if (!RegExp(r'^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]').hasMatch(value)) {
+    if (!RegExp(r'^(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%*?&]').hasMatch(value)) {
       return 'La contraseña debe tener al menos una letra mayúscula, un número y un carácter especial';
     }
     return null;
@@ -259,12 +286,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         password: newUser.contrasenya
                     );
 
-
-
                     // Inserta un nombre (puedes hacer esto en el manejador del botón)
                     await DatabaseHelper.instance.database;
                     await DatabaseHelper.instance.insertarUsuario(usuario);
-
 
                     if (kDebugMode) {
                       print('User registered: ${newUser.nombre}, ${newUser.apellido}, ${newUser.fechaNacimiento}, ${newUser.correoElectronico}');
@@ -305,6 +329,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     );
   }
 }
+
 class User {
   String nombre;
   String apellido;
