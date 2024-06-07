@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'usuario_sesion.dart'; // Importamos el Singleton para la sesión de usuario
+import 'entrada.dart';
+import 'package:echoing_emotions/entrada.dart';
+import 'basedatos_calen_helper.dart';
 
 void main() => runApp(Calendario());
 
@@ -15,6 +18,7 @@ class Event {
 }
 
 class Calendario extends StatefulWidget {
+  final dbCalendario = DBHelper_calendario.instance;
   @override
   _CalendarioState createState() => _CalendarioState();
 }
@@ -54,6 +58,11 @@ class _CalendarioState extends State<Calendario> {
   Widget build(BuildContext context) {
     int? userId = UsuarioSesion().id;
     print('El ID del usuario es: $userId');
+
+    //await DBHelper_calendario.instance.databaseC;
+    //final entradas =await DBHelper_calendario.instance.buscarUsuario(userId!);
+    //print(entradas);
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -78,7 +87,7 @@ class _CalendarioState extends State<Calendario> {
                     color: Colors.transparent, // Make header background transparent
                   ),
                 ),
-                calendarStyle: CalendarStyle(
+                calendarStyle: const CalendarStyle(
                   outsideDaysVisible: false,
                   todayDecoration: BoxDecoration(
                     color: Colors.blue,
