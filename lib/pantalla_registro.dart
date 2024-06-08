@@ -154,7 +154,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     if (value.length < 6) {
       return 'La contraseña debe tener al menos 6 caracteres';
     }
-    if (!RegExp(r'^(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%*?&]').hasMatch(value)) {
+    if (!RegExp(r'^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]').hasMatch(value)) {
       return 'La contraseña debe tener al menos una letra mayúscula, un número y un carácter especial';
     }
     return null;
