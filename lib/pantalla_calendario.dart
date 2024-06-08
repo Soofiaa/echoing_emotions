@@ -11,10 +11,28 @@ import 'basedatos_calen_helper.dart';
 void main() => runApp(Calendario());
 
 class Event {
-  final String title;
-  final String description;
+  final int id;
+  final int idUsuario;
+  final String titulo;
+  final String contenido;
+  final String dibujo;
+  final String audio;
+  final DateTime fecha;
 
-  Event(this.title, this.description);
+  Event({
+    required this.id,
+    required this.idUsuario,
+    required this.titulo,
+    required this.contenido,
+    required this.dibujo,
+    required this.audio,
+    required this.fecha,
+  });
+
+  @override
+  String toString() {
+    return 'Event(id: $id, idUsuario: $idUsuario, titulo: $titulo, fecha: $fecha)';
+  }
 }
 
 class Calendario extends StatefulWidget {
@@ -28,20 +46,116 @@ class _CalendarioState extends State<Calendario> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
 
-  final Map<DateTime, List<Event>> _events = {
-    DateTime.utc(2023, 6, 5): [
-      Event('Evento 1', 'Descripción del evento 1'),
-      Event('Evento 2', 'Descripción del evento 2')
-    ],
-    DateTime.utc(2023, 6, 6): [Event('Evento 3', 'Descripción del evento 3')],
-  };
+  final Map<DateTime, List<Event>> _events = {};
 
   @override
   void initState() {
     super.initState();
+    print('initState se ha ejecutado correctamente'); // Mensaje de consola
     _selectedDay = _focusedDay;
     _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
     initializeDateFormatting();
+
+    // para utilizar
+    // _processEntries(entradas)
+    // deberia funcionar  errores  si muchos click modificar
+
+
+    //await DBHelper_calendario.instance.databaseC;
+    //final entradas =await DBHelper_calendario.instance.buscarUsuario(userId!);
+    //print(entradas);
+
+
+
+    // Llamar a la función para procesar las entradas de ejemplo
+    _processEntries([
+      {
+        "id_entrada": 1,
+        "id_usuario": 1,
+        "titulo": "Evento 1",
+        "contenido": "Descripción del evento 1",
+        "dibujo": "dibujo1",
+        "audio": "audio1",
+        "fecha": "2024-05-28"
+      },
+      {
+        "id_entrada": 2,
+        "id_usuario": 1,
+        "titulo": "Evento 2",
+        "contenido": "Descripción del evento 2",
+        "dibujo": "dibujo2",
+        "audio": "audio2",
+        "fecha": "2024-05-28"
+      },
+      {
+        "id_entrada": 3,
+        "id_usuario": 1,
+        "titulo": "Evento 3",
+        "contenido": "Descripción del evento 3",
+        "dibujo": "dibujo3",
+        "audio": "audio3",
+        "fecha": "2024-04-28"
+      }
+    ]);
+    print('Eventos procesados: ${_events.length}');
+  }
+
+  void _processEntries(List<Map<String, dynamic>> entries) {
+    for (var entry in entries) {
+      DateTime entryDate = DateTime.parse(entry["fecha"]);
+      DateTime entryDateUtc = DateTime.utc(entryDate.year, entryDate.month, entryDate.day);
+      print('Procesando entrada con fecha UTC: $entryDateUtc'); // Mensaje de consola para la fecha
+      Event event = Event(
+        id: entry["id_entrada"],
+        idUsuario: entry["id_usuario"],
+        titulo: entry["titulo"],
+        contenido: entry["contenido"],
+        dibujo: entry["dibujo"],
+        audio: entry["audio"],
+        fecha: entryDateUtc,
+      );
+      if (!_events.containsKey(entryDateUtc)) {
+        _events[entryDateUtc] = [];
+      }
+      _events[entryDateUtc]!.add(event);
+      print('Evento añadido: $event'); // Mensaje de consola para el evento
+    }
+    setState(() {
+      _selectedEvents.value = _getEventsForDay(_selectedDay!);
+    });
+    print('Eventos añadidos a _events: $_events'); // Mensaje de consola para todos los eventos
+  }
+
+  // agregar quitar de base de datos dentro del if
+  //I/flutter (15947): Evento eliminado: Event(id: 1, idUsuario: 1, titulo: Evento 1, fecha: 2024-05-28 00:00:00.000Z)
+  //fijate que al final del tiempo tiene una Z ni idea
+  void _deleteEvent(DateTime day, Event event) {
+    setState(() {
+      _events[day]?.remove(event);
+      if (_events[day]?.isEmpty ?? false) {
+        _events.remove(day);
+      }
+      _selectedEvents.value = _getEventsForDay(_selectedDay!);
+    });
+    print('Evento eliminado: $event');
+  }
+
+  // agregar cambiar de pantalla a modificar y cambiar de base de datos dentro del if
+  //Evento modificado: Event(id: 2, idUsuario: 1, titulo: Evento 2 (Modificado), fecha: 2024-05-28 00:00:00.000Z)
+  //fijate que al final del tiempo tiene una Z ni idea
+  void _modifyEvent(DateTime day, Event oldEvent, Event newEvent) {
+    setState(() {
+      int index = _events[day]?.indexOf(oldEvent) ?? -1;
+      if (index != -1) {
+        _events[day]?[index] = newEvent;
+      }
+      _selectedEvents.value = _getEventsForDay(_selectedDay!);
+    });
+    print('Evento modificado: $newEvent');
+  }
+
+  List<Event> _getEventsForDay(DateTime day) {
+    return _events[day] ?? [];
   }
 
   @override
@@ -50,18 +164,10 @@ class _CalendarioState extends State<Calendario> {
     super.dispose();
   }
 
-  List<Event> _getEventsForDay(DateTime day) {
-    return _events[day] ?? [];
-  }
-
   @override
   Widget build(BuildContext context) {
     int? userId = UsuarioSesion().id;
     print('El ID del usuario es: $userId');
-
-    //await DBHelper_calendario.instance.databaseC;
-    //final entradas =await DBHelper_calendario.instance.buscarUsuario(userId!);
-    //print(entradas);
 
     return MaterialApp(
       home: Scaffold(
@@ -75,7 +181,7 @@ class _CalendarioState extends State<Calendario> {
           ),
         ),
         body: Container(
-          color: Colors.grey[200], // Set the desired background color
+          color: Colors.grey[200],
           child: Column(
             children: [
               TableCalendar(
@@ -84,7 +190,7 @@ class _CalendarioState extends State<Calendario> {
                   formatButtonVisible: false,
                   titleCentered: true,
                   decoration: BoxDecoration(
-                    color: Colors.transparent, // Make header background transparent
+                    color: Colors.transparent,
                   ),
                 ),
                 calendarStyle: const CalendarStyle(
@@ -121,9 +227,40 @@ class _CalendarioState extends State<Calendario> {
                     return ListView.builder(
                       itemCount: value.length,
                       itemBuilder: (context, index) {
+                        Event event = value[index];
                         return ListTile(
-                          title: Text(value[index].title),
-                          subtitle: Text(value[index].description),
+                          title: Text(event.titulo),
+                          subtitle: Text(event.contenido),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.edit),
+                                onPressed: () {
+                                  // Aquí agregaríamos el código para modificar el evento
+                                  _modifyEvent(
+                                    _selectedDay!,
+                                    event,
+                                    Event(
+                                      id: event.id,
+                                      idUsuario: event.idUsuario,
+                                      titulo: '${event.titulo} (Modificado)',
+                                      contenido: event.contenido,
+                                      dibujo: event.dibujo,
+                                      audio: event.audio,
+                                      fecha: event.fecha,
+                                    ),
+                                  );
+                                },
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.delete),
+                                onPressed: () {
+                                  _deleteEvent(_selectedDay!, event);
+                                },
+                              ),
+                            ],
+                          ),
                         );
                       },
                     );
