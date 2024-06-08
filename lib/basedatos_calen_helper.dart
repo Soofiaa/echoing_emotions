@@ -70,6 +70,8 @@ class DBHelper_calendario{
       dibujo: map['dibujo'] as String,
       audio: map['audio'] as String?,
       fecha: map['fecha'] as String,
+      emocion: map['fecha'] as String,
+      emoji: map['fecha'] as String,
     )).toList();
   }
 
