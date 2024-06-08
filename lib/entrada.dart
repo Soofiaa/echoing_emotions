@@ -1,10 +1,12 @@
+import 'package:echoing_emotions/pantalla_entrada_dibujo.dart';
+
 class Entrada {
   final int id_entrada;
   final int id_usuario;
   final String titulo;
   final String contenido;
   final String dibujo;
-  final String audio;
+  final String? audio;
   final String fecha;
 
   Entrada({

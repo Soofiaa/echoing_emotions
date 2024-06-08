@@ -2,17 +2,25 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'pantalla_entrada_dibujo.dart';
 import 'pantalla_grabar_audio.dart';
 import 'package:record/record.dart';
 import 'package:just_audio/just_audio.dart';
 import 'pantalla_emociones.dart';
+import 'basedatos_calen_helper.dart';
+import 'package:sqflite/sqflite.dart';
+import 'entrada.dart';
+
+
+
 
 class EntradaDiario extends StatefulWidget {
   final String emocion;
   final String emoji;
 
   EntradaDiario({required this.emocion, required this.emoji});
+  final dbCalendario = DBHelper_calendario.instance;
 
   @override
   _EntradaDiarioState createState() => _EntradaDiarioState();
@@ -187,12 +195,33 @@ class _EntradaDiarioState extends State<EntradaDiario> {
     );
   }
 
-  void _saveEntry() {
+  Future<void> _saveEntry() async {
+    //fecha
+    final DateTime now = DateTime.now();
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    String formattedDate = formatter.format(now);
+    final entryDate = formattedDate; // Asignar la fecha actual
+    //texto
     final title = _titleController.text;
     final content = _textController.text;
-    final drawingPoints = _drawingPoints;
+    //dibujo
+    final drawingPoints = _drawingPoints.toString();
+
+    //audio
     final audioPath = _audioPath;
-    final entryDate = DateTime.now(); // Asignar la fecha actual
+
+
+    final nuevaEntrada = Entrada(
+      id_entrada: 1,
+      id_usuario: 1,
+      titulo: title,
+      contenido: content,
+      dibujo: drawingPoints,
+      audio: audioPath,
+      fecha: entryDate.toString(),
+    );
+    await DBHelper_calendario.instance.databaseC;
+    await DBHelper_calendario.instance.insertarEntrada(nuevaEntrada);
 
     // Aquí puedes agregar la lógica para guardar la entrada
     print('Título: $title');
@@ -290,3 +319,4 @@ class _DrawingPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
+

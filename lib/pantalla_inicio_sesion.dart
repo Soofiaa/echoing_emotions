@@ -148,14 +148,14 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
 
-            /*ElevatedButton( //boton de prueba
+            ElevatedButton( //boton de prueba
               onPressed: () async {
                 //eliminar bases de datos
 
-                /*await DatabaseHelper.instance.database;
+                await DatabaseHelper.instance.database;
                 await DatabaseHelper.instance.eliminarBaseDeDatos();
                 await DBHelper_calendario.instance.databaseC;
-                await DBHelper_calendario.instance.eliminarBaseDeDatos();*/
+                await DBHelper_calendario.instance.eliminarBaseDeDatos();
 
                 //
 
@@ -164,21 +164,21 @@ class LoginScreen extends StatelessWidget {
                   nombre: 'nombre',
                   apellido: 'apellido',
                   fechaNacimiento: 'fechaNacimiento',
-                  correoElectronico: 'correoElectronico',
+                  correoElectronico: 'correo',
                   password: 'password',
                 );
 
-                //await DatabaseHelper.instance.database;
-                //await DatabaseHelper.instance.insertarUsuario(nuevoUser);
+                await DatabaseHelper.instance.database;
+                await DatabaseHelper.instance.insertarUsuario(nuevoUser);
 
-                final usuarios = await DatabaseHelper.instance.obtenerUsuarios();
+                /*final usuarios = await DatabaseHelper.instance.obtenerUsuarios();
                 for (final usuario in usuarios) {
                   final nombre = usuario.nombre;
                   final id = usuario.id;
                   print('nombre: $nombre , id: $id');
-                }
+                }*/
 
-                final nuevaEntrada = Entrada(
+                /*final nuevaEntrada = Entrada(
                   id_entrada: 1,
                   id_usuario: 1,
                   titulo: 'cccc',
@@ -198,12 +198,12 @@ class LoginScreen extends StatelessWidget {
                   print('titulo: $titulo, dibujo: $dibujo');
                 }
 
-                final entradas = await DBHelper_calendario.instance.buscarFecha(1,'2024-05-28');
-                print(entradas);
+                //final entradas = await DBHelper_calendario.instance.buscarFecha(1,'2024-06-08');
+                //print(entradas);
 
                 await DBHelper_calendario.instance.databaseC;
                 final ent =await DBHelper_calendario.instance.buscarUsuario(1);
-                print(ent);
+                print(ent);*/
               },
               child: Text(
                 'usuario',
@@ -215,7 +215,7 @@ class LoginScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8.0),
                 ),
               ),
-            ),*/
+            ),
             SizedBox(height: 12.0),
             TextButton(
               onPressed: () {

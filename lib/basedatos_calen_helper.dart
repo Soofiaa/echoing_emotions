@@ -1,3 +1,4 @@
+import 'package:echoing_emotions/pantalla_entrada_dibujo.dart';
 import 'package:echoing_emotions/usuarios.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -62,7 +63,7 @@ class DBHelper_calendario{
       titulo: map['titulo'] as String,
       contenido: map['contenido'] as String,
       dibujo: map['dibujo'] as String,
-      audio: map['audio'] as String,
+      audio: map['audio'] as String?,
       fecha: map['fecha'] as String,
     )).toList();
   }
