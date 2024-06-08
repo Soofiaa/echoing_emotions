@@ -1,22 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  tz.initializeTimeZones();
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Configuracion(),
-    );
-  }
-}
 
 class Configuracion extends StatefulWidget {
   @override
@@ -125,17 +110,12 @@ class _ConfiguracionState extends State<Configuracion> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Configuración'),
+        title: Text('Configuración de notificaciones'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Pantalla de configuración',
-              style: TextStyle(fontSize: 24),
-            ),
-            SizedBox(height: 20),
             Wrap(
               children: List<Widget>.generate(7, (int index) {
                 return ChoiceChip(

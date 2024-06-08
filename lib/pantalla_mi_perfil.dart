@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'pantalla_configuracion.dart'; // Importa la pantalla de configuración
+import 'pantalla_configuracion_notificaciones.dart'; // Importa la pantalla de configuración
 import 'pantalla_acerca_de.dart'; // Importa la pantalla "Acerca de Echoing Emotions"
 import 'pantalla_inicio_sesion.dart'; // Importa la pantalla de inicio de sesión
 
@@ -40,7 +40,7 @@ class HomeAfterLogin extends StatelessWidget {
                   );
                 },
                 icon: Icon(Icons.settings), // Agrega un icono al botón
-                label: Text('Configuración', style: TextStyle(fontSize: 18)),
+                label: Text('Configuración de notificaciones', style: TextStyle(fontSize: 18)),
               ),
             ),
             SizedBox(height: 20),

@@ -1,9 +1,10 @@
 // lib/home.dart
 import 'package:flutter/material.dart';
-import 'pantalla_calendario.dart'; // Importa la pantalla del calendario
-import 'pantalla_nueva_entrada_diario.dart'; // Importa la pantalla de entrada del diario
-import 'pantalla_mi_perfil.dart'; // Importa la pantalla HomeAfterLogin
+import 'pantalla_calendario.dart';
+import 'pantalla_nueva_entrada_diario.dart';
+import 'pantalla_mi_perfil.dart';
 import 'pantalla_emociones.dart';
+import 'pantalla_estadisticas.dart'; // Importa la pantalla de estadísticas de emojis
 import 'package:intl/intl.dart';
 
 class Home extends StatelessWidget {
@@ -24,7 +25,7 @@ class Home extends StatelessWidget {
       appBar: AppBar(
         title: Text('Home'),
       ),
-      backgroundColor: Colors.teal.shade300, // Establece el color de fondo verde
+      backgroundColor: Colors.teal.shade300,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -74,26 +75,26 @@ class Home extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => EmocionesUsuario()), // No se pasan parámetros aquí
+                  MaterialPageRoute(builder: (context) => EmocionesUsuario()),
                 );
               },
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.white), // Establece el color de fondo del botón blanco
+                backgroundColor: MaterialStateProperty.all(Colors.white),
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0), // Hace que el botón tenga esquinas redondeadas
+                    borderRadius: BorderRadius.circular(20.0),
                   ),
                 ),
               ),
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 30.0),
                 child: Column(
                   children: [
                     Text(
                       '¿Cómo te sientes?',
                       style: TextStyle(color: Colors.black, fontSize: 18.0),
                     ),
-                    SizedBox(height: 10.0),
+                    SizedBox(height: 40.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: emociones.map((emocion) {
@@ -101,7 +102,7 @@ class Home extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 5.0),
                           child: Text(
                             emocion['emoji']!,
-                            style: TextStyle(fontSize: 20.0),
+                            style: TextStyle(fontSize: 22.0),
                           ),
                         );
                       }).toList(),
@@ -111,29 +112,72 @@ class Home extends StatelessWidget {
               ),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => EstadisticasEmojis()), // Asegúrate de pasar la lista correcta
+                );
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.white),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                ),
+              ),
+              child: Stack(
+                alignment: Alignment.topCenter, // Alinea el texto en la parte superior del Stack
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.all(20.0),
+                    child: Image.asset(
+                      'assets/ESTADISTICAS.png',
+                      fit: BoxFit.cover,
+                      height: 175.0,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 8.0), // Ajusta la posición del texto desde la parte superior
+                    child: Text(
+                      'Estadísticas de emociones',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 19,
+
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 20.0),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.end, // Alinea los botones en la parte inferior de la pantalla
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Organiza los botones horizontalmente
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         ElevatedButton(
                           onPressed: () {
-                            // Navega a la pantalla del calendario al presionar el botón del calendario
                             Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) => Calendario()),
                             );
                           },
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Colors.white), // Establece el color de fondo del botón blanco
+                            backgroundColor: MaterialStateProperty.all(Colors.white),
                             shape: MaterialStateProperty.all<CircleBorder>(
-                              CircleBorder(), // Hace que el botón sea redondo
+                              CircleBorder(),
                             ),
                           ),
                           child: Padding(
@@ -143,16 +187,15 @@ class Home extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            // Navega a la pantalla de entrada del diario al presionar el botón de agregar entrada al diario
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => EntradaDiario(emocion: 'Seleccionar ', emoji: '')), // Aquí debe pasar valores predeterminados si no hay emoción seleccionada
+                              MaterialPageRoute(builder: (context) => EntradaDiario(emocion: 'Seleccionar ', emoji: '')),
                             );
                           },
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Colors.white), // Establece el color de fondo del botón blanco
+                            backgroundColor: MaterialStateProperty.all(Colors.white),
                             shape: MaterialStateProperty.all<CircleBorder>(
-                              CircleBorder(), // Hace que el botón sea redondo
+                              CircleBorder(),
                             ),
                           ),
                           child: Padding(
@@ -162,16 +205,15 @@ class Home extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            // Navega a la pantalla HomeAfterLogin al presionar el botón de perfil
                             Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) => HomeAfterLogin()),
                             );
                           },
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Colors.white), // Establece el color de fondo del botón blanco
+                            backgroundColor: MaterialStateProperty.all(Colors.white),
                             shape: MaterialStateProperty.all<CircleBorder>(
-                              CircleBorder(), // Hace que el botón sea redondo
+                              CircleBorder(),
                             ),
                           ),
                           child: Padding(

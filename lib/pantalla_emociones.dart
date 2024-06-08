@@ -1,4 +1,3 @@
-// lib/emociones_usuario.dart
 import 'package:flutter/material.dart';
 import 'pantalla_nueva_entrada_diario.dart'; // Importa la pantalla de entrada del diario
 

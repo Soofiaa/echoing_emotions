@@ -8,32 +8,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sqflite/sqflite.dart';
 import 'database_helper.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Echoing Emotions',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: RegistrationScreen(),
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: [
-        const Locale('en', ''), // Inglés
-        const Locale('es', ''), // Español
-      ],
-      locale: const Locale('es', ''), // Establecer español como idioma predeterminado
-    );
-  }
-}
 
 class RegistrationScreen extends StatefulWidget {
   final dbHelper = DatabaseHelper.instance;

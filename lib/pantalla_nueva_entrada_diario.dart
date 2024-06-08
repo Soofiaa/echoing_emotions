@@ -6,18 +6,18 @@ import 'package:intl/intl.dart';
 import 'pantalla_entrada_dibujo.dart';
 import 'pantalla_grabar_audio.dart';
 import 'package:record/record.dart';
+import 'GEStion_estadísticas.dart';
 import 'package:just_audio/just_audio.dart';
 import 'pantalla_emociones.dart';
 import 'basedatos_calen_helper.dart';
 import 'package:sqflite/sqflite.dart';
 import 'entrada.dart';
-
-
+import 'package:provider/provider.dart';
 
 
 class EntradaDiario extends StatefulWidget {
-  final String emocion;
-  final String emoji;
+  final String? emocion;
+  final String? emoji;
 
   EntradaDiario({required this.emocion, required this.emoji});
   final dbCalendario = DBHelper_calendario.instance;
@@ -36,7 +36,54 @@ class _EntradaDiarioState extends State<EntradaDiario> {
   List<DrawingPoint?> _drawingPoints = [];
   double _drawingScaleFactor = 0.55;
   String? _audioPath;
-  DateTime? _entryDate; //en ese se guarda la fecha
+  DateTime? _entryDate;
+
+  String? _emocion;
+  String? _emoji;
+
+  @override
+  void initState() {
+    super.initState();
+    _emocion = widget.emocion;
+    _emoji = widget.emoji;
+  }
+
+  Future<void> _selectEmotion() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => EmocionesUsuario()),
+    );
+
+    if (result != null) {
+      setState(() {
+        _emocion = result;
+        _emoji = _getEmojiForEmotion(result);
+      });
+    }
+  }
+
+  String _getEmojiForEmotion(String emocion) {
+    switch (emocion) {
+      case 'Miedo':
+        return '😨';
+      case 'Tristeza':
+        return '😢';
+      case 'Ira':
+        return '😠';
+      case 'Alegría':
+        return '😊';
+      case 'Sorpresa':
+        return '😲';
+      case 'Desagrado':
+        return '😒';
+      case 'Vergüenza':
+        return '😳';
+      case 'Asombro':
+        return '😮';
+      default:
+        return '😊';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,15 +107,29 @@ class _EntradaDiarioState extends State<EntradaDiario> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      widget.emoji,
-                      style: TextStyle(fontSize: 40.0), // Cambia el tamaño de la carita aquí
-                    ),
-                    SizedBox(width: 10.0),
-                    Text(
-                      widget.emocion,
-                      style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
-                    ),
+                    if (_emoji != null)
+                      GestureDetector(
+                        onTap: _selectEmotion,
+                        child: Text(
+                          _emoji!,
+                          style: TextStyle(fontSize: 40.0),
+                        ),
+                      ),
+                    if (_emocion != null)
+                      SizedBox(width: 10.0),
+                    if (_emocion != null)
+                      GestureDetector(
+                        onTap: _selectEmotion,
+                        child: Text(
+                          _emocion!,
+                          style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    if (_emocion == null)
+                      ElevatedButton(
+                        onPressed: _selectEmotion,
+                        child: Text('Seleccionar emoción'),
+                      ),
                   ],
                 ),
                 SizedBox(height: 20),
@@ -196,39 +257,39 @@ class _EntradaDiarioState extends State<EntradaDiario> {
   }
 
   Future<void> _saveEntry() async {
-    //fecha
+    // Obtener la fecha actual
     final DateTime now = DateTime.now();
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
     String formattedDate = formatter.format(now);
-    final entryDate = formattedDate; // Asignar la fecha actual
-    //texto
+
+    // Obtener los valores de los campos
     final title = _titleController.text;
     final content = _textController.text;
-    //dibujo
-    final drawingPoints = _drawingPoints.toString();
-
-    //audio
+    final drawingPoints = _drawingPoints.map((point) => point.toString()).join(',');
     final audioPath = _audioPath;
+    final emocion = _emocion; // Asegúrate de que `_emotion` esté definido y contenga la emoción seleccionada
+    final emoji = _emoji;
 
-
+    // Crear la nueva entrada
     final nuevaEntrada = Entrada(
-      id_entrada: 1,
-      id_usuario: 1,
+      id_entrada: 1, // Modificar según sea necesario
+      id_usuario: 1, // Modificar según sea necesario
       titulo: title,
       contenido: content,
       dibujo: drawingPoints,
       audio: audioPath,
-      fecha: entryDate.toString(),
+      fecha: formattedDate,
+      emocion: emocion,
+      emoji: emoji,
     );
-    await DBHelper_calendario.instance.databaseC;
+
+    // Guardar la entrada en la base de datos
     await DBHelper_calendario.instance.insertarEntrada(nuevaEntrada);
 
-    // Aquí puedes agregar la lógica para guardar la entrada
-    print('Título: $title');
-    print('Contenido: $content');
-    print('Puntos de dibujo: $drawingPoints');
-    print('Ruta de audio: $audioPath');
-    print('Fecha: $entryDate'); // Mostrar la fecha
+    // Actualizar las estadísticas de emociones (si emoji no es nulo)
+    if (emoji != null) {
+      Provider.of<EmotionStatistics>(context, listen: false).incrementEmotion(emoji);
+    }
 
     // Mostrar un mensaje de éxito
     ScaffoldMessenger.of(context).showSnackBar(
@@ -320,3 +381,54 @@ class _DrawingPainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
 
+class Entrada {
+  final int id_entrada;
+  final int id_usuario;
+  final String titulo;
+  final String contenido;
+  final String dibujo;
+  final String? audio;
+  final String fecha;
+  final String? emocion;
+  final String? emoji;
+
+  Entrada({
+    required this.id_entrada,
+    required this.id_usuario,
+    required this.titulo,
+    required this.contenido,
+    required this.dibujo,
+    this.audio,
+    required this.fecha,
+    this.emocion,
+    this.emoji,
+  });
+
+  @override
+  String toString() {
+    return 'Entrada:\n'
+        'ID Entrada: $id_entrada\n'
+        'ID Usuario: $id_usuario\n'
+        'Título: $titulo\n'
+        'Contenido: $contenido\n'
+        'Dibujo: $dibujo\n'
+        'Ruta de audio: $audio\n'
+        'Fecha: $fecha\n'
+        'Emoción: $emocion\n'
+        'Emoji: $emoji';
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id_entrada': id_entrada,
+      'id_usuario': id_usuario,
+      'titulo': titulo,
+      'contenido': contenido,
+      'dibujo': dibujo,
+      'audio': audio,
+      'fecha': fecha,
+      'emocion': emocion,
+      'emoji': emoji,
+    };
+  }
+}
