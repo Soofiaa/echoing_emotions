@@ -8,6 +8,8 @@ class Entrada {
   final String dibujo;
   final String? audio;
   final String fecha;
+  final String? emocion;
+  final String? emoji;
 
   Entrada({
     required this.id_entrada,
@@ -16,6 +18,8 @@ class Entrada {
     this.contenido = '',
     this.dibujo = '',
     this.audio = '',
-    required this.fecha
+    required this.fecha,
+    this.emocion = '',
+    this.emoji = ''
   });
 }

@@ -32,7 +32,10 @@ class DBHelper_calendario{
             'contenido TEXT,'
             'dibujo TEXT,'
             'audio TEXT,'
-            'fecha TEXT)'
+            'fecha TEXT),'
+                'emocion TEXT,'
+                'emoji TEXT),'
+
         );
         }
     );
@@ -48,7 +51,9 @@ class DBHelper_calendario{
         'contenido':entrada.contenido,
         'dibujo': entrada.dibujo,
         'audio':entrada.audio,
-        'fecha':entrada.fecha
+        'fecha':entrada.fecha,
+        'emocion':entrada.emocion,
+        'emoji':entrada.emoji,
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
