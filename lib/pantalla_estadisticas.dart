@@ -16,10 +16,6 @@ class EstadisticasEmojis extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Estadísticas de Emociones',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
             SizedBox(height: 20),
             _buildEmotionStat('😊', 'Alegría', emotionStatistics),
             _buildEmotionStat('😢', 'Tristeza', emotionStatistics),
@@ -41,11 +37,11 @@ class EstadisticasEmojis extends StatelessWidget {
       children: [
         Text(
           '$emoji $emotion',
-          style: TextStyle(fontSize: 18),
+          style: TextStyle(fontSize: 20), // Aumenta el tamaño de la fuente aquí
         ),
         Text(
           statistics.getEmotionCount(emoji).toString(),
-          style: TextStyle(fontSize: 18),
+          style: TextStyle(fontSize: 20),
         ),
       ],
     );
