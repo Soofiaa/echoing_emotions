@@ -16,17 +16,21 @@ class Event {
   final String titulo;
   final String contenido;
   final String dibujo;
-  final String audio;
-  final DateTime fecha;
+  final String? audio;
+  final String fecha;
+  final String? emocion;
+  final String? emoji;
 
   Event({
     required this.id,
     required this.idUsuario,
-    required this.titulo,
-    required this.contenido,
-    required this.dibujo,
-    required this.audio,
+    this.titulo = '',
+    this.contenido = '',
+    this.dibujo = '',
+    this.audio = '',
     required this.fecha,
+    this.emocion = '',
+    this.emoji = ''
   });
 
   @override
@@ -59,16 +63,11 @@ class _CalendarioState extends State<Calendario> {
     // para utilizar
 
     // deberia funcionar  errores  si muchos click modificar
-
-
-    //await DBHelper_calendario.instance.databaseC;
-    //final entradas =await DBHelper_calendario.instance.buscarUsuario(userId!);
-    //print(entradas);
-    //_processEntries();
+    cargarEntradas();
 
 
     // Llamar a la función para procesar las entradas de ejemplo
-    _processEntries([
+    /*_processEntries([
       {
         "id_entrada": 1,
         "id_usuario": 1,
@@ -96,7 +95,7 @@ class _CalendarioState extends State<Calendario> {
         "audio": "audio3",
         "fecha": "2024-04-28"
       }
-    ]);
+    ]);*/
     print('Eventos procesados: ${_events.length}');
   }
 
@@ -112,7 +111,9 @@ class _CalendarioState extends State<Calendario> {
         contenido: entry["contenido"],
         dibujo: entry["dibujo"],
         audio: entry["audio"],
-        fecha: entryDateUtc,
+        fecha: entryDateUtc.toString(),
+        emocion: entry["emocion"],
+        emoji: entry["emoji"],
       );
       if (!_events.containsKey(entryDateUtc)) {
         _events[entryDateUtc] = [];
@@ -125,7 +126,10 @@ class _CalendarioState extends State<Calendario> {
     });
     print('Eventos añadidos a _events: $_events'); // Mensaje de consola para todos los eventos
   }
-
+  Future<void> cargarEntradas() async {
+    final entradas = await DBHelper_calendario.instance.buscarUsuario(1);
+    _processEntries(entradas);
+  }
   // agregar quitar de base de datos dentro del if
   //I/flutter (15947): Evento eliminado: Event(id: 1, idUsuario: 1, titulo: Evento 1, fecha: 2024-05-28 00:00:00.000Z)
   //fijate que al final del tiempo tiene una Z ni idea

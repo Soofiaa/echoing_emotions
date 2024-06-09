@@ -168,8 +168,8 @@ class LoginScreen extends StatelessWidget {
                   password: 'password',
                 );
 
-                //await DatabaseHelper.instance.database;
-                //await DatabaseHelper.instance.insertarUsuario(nuevoUser);
+                await DatabaseHelper.instance.database;
+                await DatabaseHelper.instance.insertarUsuario(nuevoUser);
 
                /* final usuarios = await DatabaseHelper.instance.obtenerUsuarios();
                 for (final usuario in usuarios) {
@@ -196,14 +196,14 @@ class LoginScreen extends StatelessWidget {
                 final entradas = await DBHelper_calendario.instance.buscarFecha(1,'2024-06-08');
                 print(entradas);*/
 
-                final entradasGuardadas = await dbCalendario.obtenerEntradas();
+                /*final entradasGuardadas = await dbCalendario.obtenerEntradas();
                 for (final Ens in entradasGuardadas) {
                   final titulo = Ens.titulo;
                   final contenido = Ens.contenido;
                   final fecha = Ens.fecha;
                   final emocion = Ens.emocion;
                   print('titulo: $titulo, contenido: $contenido, fecha:$fecha, emocion: $emocion');
-                }
+                }*/
 
 
 
