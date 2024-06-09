@@ -158,7 +158,8 @@ class LoginScreen extends StatelessWidget {
                 await DBHelper_calendario.instance.eliminarBaseDeDatos();
 
                 //
-                final nuevoUser = Usuarios(
+
+                  final nuevoUser = Usuarios(
                   id: 1,
                   nombre: 'nombre',
                   apellido: 'apellido',
@@ -167,7 +168,7 @@ class LoginScreen extends StatelessWidget {
                   password: 'password',
                 );
 
-                await DatabaseHelper.instance.database;
+                /*await DatabaseHelper.instance.database;
                 await DatabaseHelper.instance.insertarUsuario(nuevoUser);
 
                 final usuarios = await DatabaseHelper.instance.obtenerUsuarios();
