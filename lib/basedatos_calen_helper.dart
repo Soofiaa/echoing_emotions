@@ -32,9 +32,9 @@ class DBHelper_calendario{
             'contenido TEXT,'
             'dibujo TEXT,'
             'audio TEXT,'
-            'fecha TEXT),'
-                'emocion TEXT,'
-                'emoji TEXT),'
+            'fecha TEXT,'
+            'emocion TEXT,'
+            'emoji TEXT)'
 
         );
         }
@@ -70,8 +70,8 @@ class DBHelper_calendario{
       dibujo: map['dibujo'] as String,
       audio: map['audio'] as String?,
       fecha: map['fecha'] as String,
-      emocion: map['fecha'] as String,
-      emoji: map['fecha'] as String,
+      emocion: map['emocion'] as String,
+      emoji: map['emoji'] as String,
     )).toList();
   }
 
