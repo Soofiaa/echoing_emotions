@@ -152,10 +152,10 @@ class LoginScreen extends StatelessWidget {
               onPressed: () async {
                 //eliminar bases de datos
 
-                await DatabaseHelper.instance.database;
-                await DatabaseHelper.instance.eliminarBaseDeDatos();
-                await DBHelper_calendario.instance.databaseC;
-                await DBHelper_calendario.instance.eliminarBaseDeDatos();
+                //await DatabaseHelper.instance.database;
+                //await DatabaseHelper.instance.eliminarBaseDeDatos();
+                //await DBHelper_calendario.instance.databaseC;
+                //await DBHelper_calendario.instance.eliminarBaseDeDatos();
 
                 //
 
@@ -168,10 +168,10 @@ class LoginScreen extends StatelessWidget {
                   password: 'password',
                 );
 
-                /*await DatabaseHelper.instance.database;
+                await DatabaseHelper.instance.database;
                 await DatabaseHelper.instance.insertarUsuario(nuevoUser);
 
-                final usuarios = await DatabaseHelper.instance.obtenerUsuarios();
+               /* final usuarios = await DatabaseHelper.instance.obtenerUsuarios();
                 for (final usuario in usuarios) {
                   final nombre = usuario.nombre;
                   final id = usuario.id;
