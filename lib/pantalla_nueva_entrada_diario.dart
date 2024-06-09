@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'pantalla_entrada_dibujo.dart';
 import 'pantalla_grabar_audio.dart';
-import 'pantalla_estadisticas.dart'; // Importa la pantalla de estadísticas
 import 'package:record/record.dart';
 import 'GEStion_estadísticas.dart';
 import 'package:just_audio/just_audio.dart';
@@ -37,9 +36,9 @@ class _EntradaDiarioState extends State<EntradaDiario> {
   double _drawingScaleFactor = 0.55;
   String? _audioPath;
   DateTime? _entryDate;
-
   String? _emocion;
   String? _emoji;
+  String _selectedPeriod = 'diario';
 
   @override
   void initState() {
@@ -90,6 +89,32 @@ class _EntradaDiarioState extends State<EntradaDiario> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Entrada nueva del diario'),
+        actions: [
+          DropdownButton<String>(
+            value: _selectedPeriod,
+            icon: Icon(Icons.arrow_downward, color: Colors.white),
+            iconSize: 24,
+            elevation: 16,
+            dropdownColor: Colors.teal,
+            style: TextStyle(color: Colors.white),
+            underline: Container(
+              height: 2,
+              color: Colors.white,
+            ),
+            onChanged: (String? newValue) {
+              setState(() {
+                _selectedPeriod = newValue!;
+              });
+            },
+            items: <String>['diario', 'semanal', 'mensual', 'anual']
+                .map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ),
+        ],
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -263,23 +288,20 @@ class _EntradaDiarioState extends State<EntradaDiario> {
   }
 
   Future<void> _saveEntry() async {
-    // Obtener la fecha actual
     final DateTime now = DateTime.now();
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
     String formattedDate = formatter.format(now);
 
-    // Obtener los valores de los campos
     final title = _titleController.text;
     final content = _textController.text;
     final drawingPoints = _drawingPoints.map((point) => point.toString()).join(',');
     final audioPath = _audioPath;
-    final emocion = _emocion; // Asegúrate de que `_emotion` esté definido y contenga la emoción seleccionada
+    final emocion = _emocion;
     final emoji = _emoji;
 
-    // Crear la nueva entrada
     final nuevaEntrada = Entrada(
-      id_entrada: 1, // Modificar según sea necesario
-      id_usuario: 1, // Modificar según sea necesario
+      id_entrada: 1,
+      id_usuario: 1,
       titulo: title,
       contenido: content,
       dibujo: drawingPoints,
@@ -289,15 +311,12 @@ class _EntradaDiarioState extends State<EntradaDiario> {
       emoji: emoji,
     );
 
-    // Guardar la entrada en la base de datos
     await DBHelper_calendario.instance.insertarEntrada(nuevaEntrada);
 
-    // Actualizar las estadísticas de emociones (si emoji no es nulo)
     if (emoji != null) {
       Provider.of<EmotionStatistics>(context, listen: false).incrementEmotion(emoji);
     }
 
-    // Mostrar un mensaje de éxito
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Entrada guardada exitosamente')),
     );
