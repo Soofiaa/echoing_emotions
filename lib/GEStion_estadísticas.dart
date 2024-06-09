@@ -1,24 +1,18 @@
-// lib/emotion_statistics.dart
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
-class EmotionStatistics with ChangeNotifier {
-  final Map<String, int> _emotionCount = {
-    '😨': 0,
-    '😢': 0,
-    '😠': 0,
-    '😊': 0,
-    '😲': 0,
-    '😒': 0,
-    '😳': 0,
-    '😮': 0,
-  };
+class EmotionStatistics extends ChangeNotifier {
+  final Map<String, int> _emotionCounts = {};
 
-  Map<String, int> get emotionCount => _emotionCount;
-
-  void incrementEmotion(String emoji) {
-    if (_emotionCount.containsKey(emoji)) {
-      _emotionCount[emoji] = (_emotionCount[emoji] ?? 0) + 1;
-      notifyListeners();
+  void incrementEmotion(String emotion) {
+    if (_emotionCounts.containsKey(emotion)) {
+      _emotionCounts[emotion] = _emotionCounts[emotion]! + 1;
+    } else {
+      _emotionCounts[emotion] = 1;
     }
+    notifyListeners();
+  }
+
+  int getEmotionCount(String emotion) {
+    return _emotionCounts[emotion] ?? 0;
   }
 }

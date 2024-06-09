@@ -5,15 +5,15 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'pantalla_entrada_dibujo.dart';
 import 'pantalla_grabar_audio.dart';
+import 'pantalla_estadisticas.dart'; // Importa la pantalla de estadísticas
 import 'package:record/record.dart';
 import 'GEStion_estadísticas.dart';
 import 'package:just_audio/just_audio.dart';
-import 'pantalla_emociones.dart';
 import 'basedatos_calen_helper.dart';
 import 'package:sqflite/sqflite.dart';
 import 'entrada.dart';
 import 'package:provider/provider.dart';
-
+import 'pantalla_emociones.dart';
 
 class EntradaDiario extends StatefulWidget {
   final String? emocion;
@@ -210,6 +210,12 @@ class _EntradaDiarioState extends State<EntradaDiario> {
                   onPressed: _saveEntry,
                   child: Text('Guardar'),
                 ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/estadisticas');
+                  },
+                  child: Text('Ver estadísticas'),
+                ),
               ],
             ),
           ),
@@ -380,4 +386,3 @@ class _DrawingPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
-
