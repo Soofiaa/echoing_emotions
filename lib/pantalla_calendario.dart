@@ -1,4 +1,4 @@
-// Path: lib/calendario.dart
+
 
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -8,7 +8,6 @@ import 'entrada.dart';
 import 'package:echoing_emotions/entrada.dart';
 import 'basedatos_calen_helper.dart';
 
-void main() => runApp(Calendario());
 
 class Event {
   final int id;
