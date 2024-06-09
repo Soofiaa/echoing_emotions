@@ -291,7 +291,9 @@ class _EntradaDiarioState extends State<EntradaDiario> {
 
     // Guardar la entrada en la base de datos
     await DBHelper_calendario.instance.insertarEntrada(nuevaEntrada);
-
+    print(nuevaEntrada.titulo);
+    print(nuevaEntrada.contenido);
+    print(nuevaEntrada.dibujo);
     // Actualizar las estadísticas de emociones (si emoji no es nulo)
     if (emoji != null) {
       Provider.of<EmotionStatistics>(context, listen: false).incrementEmotion(emoji);
