@@ -57,14 +57,14 @@ class _CalendarioState extends State<Calendario> {
     initializeDateFormatting();
 
     // para utilizar
-    // _processEntries(entradas)
+
     // deberia funcionar  errores  si muchos click modificar
 
 
     //await DBHelper_calendario.instance.databaseC;
     //final entradas =await DBHelper_calendario.instance.buscarUsuario(userId!);
     //print(entradas);
-
+    //_processEntries();
 
 
     // Llamar a la función para procesar las entradas de ejemplo
@@ -163,7 +163,6 @@ class _CalendarioState extends State<Calendario> {
     _selectedEvents.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     int? userId = UsuarioSesion().id;
