@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'GEStion_estadísticas.dart';
 
+
 class EstadisticasEmojis extends StatefulWidget {
   @override
   _EstadisticasEmojisState createState() => _EstadisticasEmojisState();

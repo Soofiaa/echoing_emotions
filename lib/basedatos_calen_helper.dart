@@ -35,7 +35,6 @@ class DBHelper_calendario{
             'fecha TEXT,'
             'emocion TEXT,'
             'emoji TEXT)'
-
         );
         }
     );

@@ -1,3 +1,4 @@
+
 plugins {
     id "com.android.application"
     id "kotlin-android"
@@ -23,6 +24,7 @@ if (flutterVersionName == null) {
 }
 
 android {
+    compileSdkVersion 33
     namespace "com.example.echoing_emotions"
     compileSdk flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
@@ -45,8 +47,8 @@ android {
         applicationId "com.example.echoing_emotions"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion = 21
-        targetSdkVersion = flutter.targetSdkVersion
+        minSdkVersion = 23
+        targetSdkVersion 33
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName
     }
@@ -58,6 +60,8 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+
+
 }
 
 flutter {
