@@ -75,6 +75,11 @@ flutter:
     - assets/fonts/
     - assets/ESTADISTICAS.png
     - assets/paper_texture.avif
+    - assets/fondo1.jpg
+    - assets/fondo2.jpg
+    - assets/fondo3.jpg
+    - assets/fondo4.jpg
+    - assets/fondo5.jpg
   fonts:
     - family: AbrilFatface
       fonts:
