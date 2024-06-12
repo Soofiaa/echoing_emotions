@@ -158,6 +158,7 @@ class LoginScreen extends StatelessWidget {
                 //await DBHelper_calendario.instance.eliminarBaseDeDatos();
 
                 //
+                /*
 
                   final nuevoUser = Usuarios(
                   id: 1,
@@ -171,43 +172,39 @@ class LoginScreen extends StatelessWidget {
                 await DatabaseHelper.instance.database;
                 await DatabaseHelper.instance.insertarUsuario(nuevoUser);
 
-               /* final usuarios = await DatabaseHelper.instance.obtenerUsuarios();
+                final usuarios = await DatabaseHelper.instance.obtenerUsuarios();
                 for (final usuario in usuarios) {
                   final nombre = usuario.nombre;
                   final id = usuario.id;
                   print('nombre: $nombre , id: $id');
                 }*/
 
-                /*final nuevaEntrada = Entrada(
-                  id_entrada: 1,
+                final nuevaEntrada = Entrada(
+                  id_entrada: 4,
                   id_usuario: 1,
                   titulo: 'cccc',
                   contenido: 'cccc...',
-                  dibujo: 'ccc',
                   audio: 'ccc',
-                  fecha: '2024-05-28',
+                  fecha: '2024-05-29',
                 );
 
                 //await DBHelper_calendario.instance.databaseC;
                 //await DBHelper_calendario.instance.insertarEntrada(nuevaEntrada);
-                await DBHelper_calendario.instance.databaseC;
-                final ent =await DBHelper_calendario.instance.buscarUsuario(1);
-                print(ent);
-                final entradas = await DBHelper_calendario.instance.buscarFecha(1,'2024-06-08');
-                print(entradas);*/
-
-                /*final entradasGuardadas = await dbCalendario.obtenerEntradas();
+                //await DBHelper_calendario.instance.databaseC;
+                //final ent =await DBHelper_calendario.instance.buscarUsuario(1);
+                //print(ent);
+                //final entradas = await DBHelper_calendario.instance.buscarFecha(1,'2024-06-08');
+                //print(entradas);
+                /*await DBHelper_calendario.instance.modificarEntrada(nuevaEntrada);
+                final entradasGuardadas = await dbCalendario.obtenerEntradas();
                 for (final Ens in entradasGuardadas) {
                   final titulo = Ens.titulo;
                   final contenido = Ens.contenido;
                   final fecha = Ens.fecha;
-                  final emocion = Ens.emocion;
-                  print('titulo: $titulo, contenido: $contenido, fecha:$fecha, emocion: $emocion');
+                  final id = Ens.id_entrada;
+                  print('titulo: $titulo, contenido: $contenido, fecha:$fecha, id: $id');
                 }*/
-
-
-
-
+                //await DBHelper_calendario.instance.eliminarEntrada(6);
               },
               child: Text(
                 'usuario',

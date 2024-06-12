@@ -94,6 +94,28 @@ class DBHelper_calendario{
     return result;
   }
 
+  Future<void> modificarEntrada(Entrada entrada) async {
+    final db = await databaseC;
+    await db.update(
+      'misEntradas',
+      entrada.toMap(
+      ), // Convierte la entrada en un mapa.
+      where: 'id_entrada = ?', // Filtra por el ID de la entrada.
+      whereArgs: [entrada.id_entrada], // Proporciona el ID como argumento.
+    );
+  }
+
+
+  Future<void> eliminarEntrada(int idEntrada) async {
+    final db = await databaseC;
+    await db.delete(
+      'misEntradas',
+      where: 'id_entrada = ?', // Filtra por el ID de la entrada.
+      whereArgs: [idEntrada], // Proporciona el ID como argumento.
+    );
+  }
+
+
   Future<void> eliminarBaseDeDatos() async {
     final path = await getDatabasesPath();
     final databasePath = join(path, 'misEntradas.db');

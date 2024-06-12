@@ -22,4 +22,16 @@ class Entrada {
     this.emocion = '',
     this.emoji = ''
   });
+  Map<String, dynamic> toMap() {
+    return {
+      'id_entrada': id_entrada,
+      'id_usuario': id_usuario,
+      'titulo': titulo,
+      'contenido': contenido,
+      'dibujo':dibujo,
+      'audio':audio,
+      'fecha':fecha,
+      'emocion':emocion,
+      'emoji':emoji
+    };}
 }
