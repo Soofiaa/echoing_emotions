@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'pantalla_entrada_dibujo.dart';
 import 'pantalla_grabar_audio.dart';
-import 'pantalla_estadisticas.dart'; // Importa la pantalla de estadísticas
+import 'pantalla_estadisticas.dart';
 import 'package:record/record.dart';
 import 'GEStion_estadísticas.dart';
 import 'package:just_audio/just_audio.dart';
@@ -41,12 +41,22 @@ class _EntradaDiarioState extends State<EntradaDiario> {
 
   String? _emocion;
   String? _emoji;
+  String? _selectedBackgroundImage;
+  List<String> _backgroundNames = ['Libreta rosada', 'Caligrafía', 'Cielo', 'Infinito', 'Arcoíris'];
+  List<String> _backgroundImages = [
+    'assets/fondo1.jpg',
+    'assets/fondo2.jpg',
+    'assets/fondo3.jpg',
+    'assets/fondo4.jpg',
+    'assets/fondo5.jpg'
+  ];
 
   @override
   void initState() {
     super.initState();
     _emocion = widget.emocion;
     _emoji = widget.emoji;
+    _selectedBackgroundImage = _backgroundImages[0]; // Default background
   }
 
   Future<void> _selectEmotion() async {
@@ -123,7 +133,8 @@ class _EntradaDiarioState extends State<EntradaDiario> {
                         onTap: _selectEmotion,
                         child: Text(
                           _emocion!,
-                          style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 25.0, fontWeight: FontWeight.bold),
                         ),
                       ),
                     if (_emocion == null)
@@ -169,6 +180,39 @@ class _EntradaDiarioState extends State<EntradaDiario> {
                 ),
                 SizedBox(height: 20),
                 Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 5,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      value: _selectedBackgroundImage,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          _selectedBackgroundImage = newValue;
+                        });
+                      },
+                      items: _backgroundImages.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(_backgroundNames[_backgroundImages.indexOf(value)]),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
+                Container(
                   child: AnimatedContainer(
                     duration: Duration(milliseconds: 50),
                     width: double.infinity,
@@ -176,7 +220,10 @@ class _EntradaDiarioState extends State<EntradaDiario> {
                       minHeight: _initialHeight,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      image: DecorationImage(
+                        image: AssetImage(_selectedBackgroundImage!),
+                        fit: BoxFit.cover,
+                      ),
                       borderRadius: BorderRadius.circular(10.0),
                       boxShadow: [
                         BoxShadow(
@@ -230,7 +277,9 @@ class _EntradaDiarioState extends State<EntradaDiario> {
             onPressed: () async {
               final result = await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => EntradaDibujo(initialPoints: _drawingPoints)),
+                MaterialPageRoute(
+                    builder: (context) =>
+                        EntradaDibujo(initialPoints: _drawingPoints)),
               );
               if (result != null) {
                 setState(() {
@@ -264,25 +313,31 @@ class _EntradaDiarioState extends State<EntradaDiario> {
   }
 
   Future<void> _saveEntry() async {
+<<<<<<< HEAD
     // Obtener la fecha actual
     int? userId = UsuarioSesion().id;
     int ID=userId ?? 0;
+=======
+>>>>>>> 8cbf6a5782294797624386f3ee4367bb44667913
     final DateTime now = DateTime.now();
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
     String formattedDate = formatter.format(now);
 
-    // Obtener los valores de los campos
     final title = _titleController.text;
     final content = _textController.text;
     final drawingPoints = _drawingPoints.map((point) => point.toString()).join(',');
     final audioPath = _audioPath;
-    final emocion = _emocion; // Asegúrate de que `_emotion` esté definido y contenga la emoción seleccionada
+    final emocion = _emocion;
     final emoji = _emoji;
 
-    // Crear la nueva entrada
     final nuevaEntrada = Entrada(
+<<<<<<< HEAD
       id_entrada: 1, // Modificar según sea necesario
       id_usuario: ID, // Modificar según sea necesario
+=======
+      id_entrada: 1,
+      id_usuario: 1,
+>>>>>>> 8cbf6a5782294797624386f3ee4367bb44667913
       titulo: title,
       contenido: content,
       dibujo: drawingPoints,
@@ -292,17 +347,13 @@ class _EntradaDiarioState extends State<EntradaDiario> {
       emoji: emoji,
     );
 
-    // Guardar la entrada en la base de datos
     await DBHelper_calendario.instance.insertarEntrada(nuevaEntrada);
-    print(nuevaEntrada.titulo);
-    print(nuevaEntrada.contenido);
-    print(nuevaEntrada.dibujo);
-    // Actualizar las estadísticas de emociones (si emoji no es nulo)
+
     if (emoji != null) {
-      Provider.of<EmotionStatistics>(context, listen: false).incrementEmotion(emoji);
+      Provider.of<EmotionStatistics>(context, listen: false)
+          .incrementEmotion(emoji);
     }
 
-    // Mostrar un mensaje de éxito
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Entrada guardada exitosamente')),
     );
@@ -317,7 +368,8 @@ class _EntradaDiarioState extends State<EntradaDiario> {
         borderRadius: BorderRadius.circular(15.0),
       ),
       child: CustomPaint(
-        painter: _DrawingPainter(_drawingPoints, scaleFactor: _drawingScaleFactor),
+        painter:
+        _DrawingPainter(_drawingPoints, scaleFactor: _drawingScaleFactor),
       ),
     );
   }
@@ -383,7 +435,8 @@ class _DrawingPainter extends CustomPainter {
         canvas.drawLine(drawingPoints[i]!.offset, drawingPoints[i + 1]!.offset,
             drawingPoints[i]!.paint);
       } else if (drawingPoints[i] != null && drawingPoints[i + 1] == null) {
-        canvas.drawPoints(PointMode.points, [drawingPoints[i]!.offset], drawingPoints[i]!.paint);
+        canvas.drawPoints(PointMode.points, [drawingPoints[i]!.offset],
+            drawingPoints[i]!.paint);
       }
     }
   }
