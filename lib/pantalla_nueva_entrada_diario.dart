@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:echoing_emotions/usuario_sesion.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -264,6 +265,8 @@ class _EntradaDiarioState extends State<EntradaDiario> {
 
   Future<void> _saveEntry() async {
     // Obtener la fecha actual
+    int? userId = UsuarioSesion().id;
+    int ID=userId ?? 0;
     final DateTime now = DateTime.now();
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
     String formattedDate = formatter.format(now);
@@ -279,7 +282,7 @@ class _EntradaDiarioState extends State<EntradaDiario> {
     // Crear la nueva entrada
     final nuevaEntrada = Entrada(
       id_entrada: 1, // Modificar según sea necesario
-      id_usuario: 1, // Modificar según sea necesario
+      id_usuario: ID, // Modificar según sea necesario
       titulo: title,
       contenido: content,
       dibujo: drawingPoints,

@@ -27,4 +27,5 @@ class UsuarioSesion {
 
   // Getter para obtener el ID del usuario
   int? get id => _usuario?.id;
+
 }

@@ -195,7 +195,7 @@ class LoginScreen extends StatelessWidget {
                 //print(ent);
                 //final entradas = await DBHelper_calendario.instance.buscarFecha(1,'2024-06-08');
                 //print(entradas);
-                /*await DBHelper_calendario.instance.modificarEntrada(nuevaEntrada);
+                //await DBHelper_calendario.instance.modificarEntrada(nuevaEntrada);
                 final entradasGuardadas = await dbCalendario.obtenerEntradas();
                 for (final Ens in entradasGuardadas) {
                   final titulo = Ens.titulo;
@@ -203,7 +203,7 @@ class LoginScreen extends StatelessWidget {
                   final fecha = Ens.fecha;
                   final id = Ens.id_entrada;
                   print('titulo: $titulo, contenido: $contenido, fecha:$fecha, id: $id');
-                }*/
+                }
                 //await DBHelper_calendario.instance.eliminarEntrada(6);
               },
               child: Text(

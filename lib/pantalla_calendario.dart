@@ -126,14 +126,17 @@ class _CalendarioState extends State<Calendario> {
     print('Eventos añadidos a _events: $_events'); // Mensaje de consola para todos los eventos
   }
   Future<void> cargarEntradas() async {
-    final entradas = await DBHelper_calendario.instance.buscarUsuario(1);
+    int? userId = UsuarioSesion().id;
+    int userI = userId ??0;
+    final entradas = await DBHelper_calendario.instance.buscarUsuario(userI);
     _processEntries(entradas);
   }
   // agregar quitar de base de datos dentro del if
   //I/flutter (15947): Evento eliminado: Event(id: 1, idUsuario: 1, titulo: Evento 1, fecha: 2024-05-28 00:00:00.000Z)
   //fijate que al final del tiempo tiene una Z ni idea
   void _deleteEvent(DateTime day, Event event) {
-    setState(() {
+    setState(() async {
+      await DBHelper_calendario.instance.eliminarEntrada(event.id);
       _events[day]?.remove(event);
       if (_events[day]?.isEmpty ?? false) {
         _events.remove(day);
