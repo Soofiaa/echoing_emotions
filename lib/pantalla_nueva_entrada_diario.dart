@@ -313,12 +313,9 @@ class _EntradaDiarioState extends State<EntradaDiario> {
   }
 
   Future<void> _saveEntry() async {
-<<<<<<< HEAD
-    // Obtener la fecha actual
+
     int? userId = UsuarioSesion().id;
     int ID=userId ?? 0;
-=======
->>>>>>> 8cbf6a5782294797624386f3ee4367bb44667913
     final DateTime now = DateTime.now();
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
     String formattedDate = formatter.format(now);
@@ -331,13 +328,10 @@ class _EntradaDiarioState extends State<EntradaDiario> {
     final emoji = _emoji;
 
     final nuevaEntrada = Entrada(
-<<<<<<< HEAD
+
       id_entrada: 1, // Modificar según sea necesario
+
       id_usuario: ID, // Modificar según sea necesario
-=======
-      id_entrada: 1,
-      id_usuario: 1,
->>>>>>> 8cbf6a5782294797624386f3ee4367bb44667913
       titulo: title,
       contenido: content,
       dibujo: drawingPoints,
