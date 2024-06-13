@@ -9,7 +9,14 @@ import 'pantalla_mi_perfil.dart'; // Importa el widget de la pantalla siguiente 
 import 'pantalla_estadisticas.dart'; // Importa el widget de estadísticas
 import 'GEStion_estadísticas.dart'; // Importa la clase EmotionStatistics
 
+import 'package:timezone/data/latest.dart' as tz;
+import 'Services/notifi_service.dart';
+import 'pantalla_configuracion_notificaciones.dart';
+
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  NotificationService().initNotification();
+  tz.initializeTimeZones();
   runApp(MyApp());
 }
 
@@ -29,14 +36,14 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         home: LoginScreen(), // Usa LoginScreen como la pantalla de inicio
-        localizationsDelegates: [
+        localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        supportedLocales: [
-          const Locale('en', 'US'), // English
-          const Locale('es', 'ES'), // Spanish
+        supportedLocales: const [
+          Locale('en', 'US'), // English
+          Locale('es', 'ES'), // Spanish
         ],
         locale: const Locale('es'), // Set default locale to Spanish
         routes: {

@@ -35,7 +35,7 @@ class LoginScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
+            const Text(
               'Bienvenido a \n Echoing Emotions',
               style: TextStyle(
                 color: Colors.white,
@@ -44,7 +44,7 @@ class LoginScreen extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
-            Text(
+            const Text(
               'Deja que tu mente descanse mientras tu corazón se expresa',
               style: TextStyle(
                 color: Colors.white,
@@ -95,12 +95,12 @@ class LoginScreen extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => RecuperarPassword()),
                   );
                 },
-                child: Text(
-                  '¿Olvidaste la contraseña?',
-                  style: TextStyle(color: Colors.white),
-                ),
                 style: TextButton.styleFrom(
                   textStyle: TextStyle(fontSize: 16.0),
+                ),
+                child: const Text(
+                  '¿Olvidaste la contraseña?',
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
             ),
@@ -136,15 +136,15 @@ class LoginScreen extends StatelessWidget {
                   print('cuenta no existe');
                 }
               },
-              child: Text(
-                'Iniciar sesión',
-                style: TextStyle(color: Colors.black87),
-              ),
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(vertical: 16.0),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
+              ),
+              child: const Text(
+                'Iniciar sesión',
+                style: TextStyle(color: Colors.black87),
               ),
             ),
 
@@ -158,7 +158,7 @@ class LoginScreen extends StatelessWidget {
                 //await DBHelper_calendario.instance.eliminarBaseDeDatos();
 
                 //
-                /*
+
 
                   final nuevoUser = Usuarios(
                   id: 1,
@@ -177,7 +177,7 @@ class LoginScreen extends StatelessWidget {
                   final nombre = usuario.nombre;
                   final id = usuario.id;
                   print('nombre: $nombre , id: $id');
-                }*/
+                }
 
                 final nuevaEntrada = Entrada(
                   id_entrada: 4,
@@ -206,15 +206,15 @@ class LoginScreen extends StatelessWidget {
                 }*/
                 //await DBHelper_calendario.instance.eliminarEntrada(6);
               },
-              child: Text(
-                'usuario',
-                style: TextStyle(color: Colors.black87),
-              ),
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(vertical: 16.0),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
+              ),
+              child: const Text(
+                'usuario',
+                style: TextStyle(color: Colors.black87),
               ),
             ),
             SizedBox(height: 12.0),
@@ -225,12 +225,12 @@ class LoginScreen extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => RegistrationScreen()),
                 );
               },
-              child: Text(
-                '¿No tienes cuenta? Regístrate',
-                style: TextStyle(color: Colors.white),
-              ),
               style: TextButton.styleFrom(
                 textStyle: TextStyle(fontSize: 16.0),
+              ),
+              child: const Text(
+                '¿No tienes cuenta? Regístrate',
+                style: TextStyle(color: Colors.white),
               ),
             ),
           ],
