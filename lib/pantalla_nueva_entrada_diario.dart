@@ -17,6 +17,8 @@ import 'package:provider/provider.dart';
 import 'pantalla_emociones.dart';
 import 'pantalla_calendario.dart';
 
+
+
 class EntradaDiario extends StatefulWidget {
   final String? emocion;
   final String? emoji;
@@ -66,7 +68,28 @@ class _EntradaDiarioState extends State<EntradaDiario> {
       _audioPath = widget.evento!.audio;
       _emocion = widget.evento!.emocion;
       _emoji = widget.evento!.emoji;
+      _drawingPoints = _parseDrawingPoints(widget.evento!.dibujo);
     }
+  }
+
+  List<DrawingPoint?> _parseDrawingPoints(String dibujo) {
+    List<DrawingPoint?> points = [];
+    var pointStrings = dibujo.split(',');
+    for (var pointString in pointStrings) {
+      if (pointString.isNotEmpty) {
+        var pointData = pointString.split(':');
+        if (pointData.length == 4) {
+          points.add(DrawingPoint(
+            Offset(double.parse(pointData[0]), double.parse(pointData[1])),
+            Paint()
+              ..color = Color(int.parse(pointData[2]))
+              ..strokeWidth = double.parse(pointData[3])
+              ..strokeCap = StrokeCap.round,
+          ));
+        }
+      }
+    }
+    return points;
   }
 
   Future<void> _selectEmotion() async {
@@ -331,7 +354,7 @@ class _EntradaDiarioState extends State<EntradaDiario> {
 
     final title = _titleController.text;
     final content = _textController.text;
-    final drawingPoints = _drawingPoints.map((point) => point.toString()).join(',');
+    final drawingPoints = _drawingPoints.map((point) => point != null ? '${point.offset.dx}:${point.offset.dy}:${point.paint.color.value}:${point.paint.strokeWidth}' : '').join(',');
     final audioPath = _audioPath;
     final emocion = _emocion;
     final emoji = _emoji;
@@ -375,8 +398,7 @@ class _EntradaDiarioState extends State<EntradaDiario> {
         borderRadius: BorderRadius.circular(15.0),
       ),
       child: CustomPaint(
-        painter:
-        _DrawingPainter(_drawingPoints, scaleFactor: _drawingScaleFactor),
+        painter: _DrawingPainter(_drawingPoints, scaleFactor: _drawingScaleFactor),
       ),
     );
   }
