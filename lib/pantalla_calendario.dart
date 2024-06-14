@@ -124,7 +124,6 @@ class _CalendarioState extends State<Calendario> {
     DBHelper_calendario.instance.modificarEntrada(newEvent.toEntrada());
   }
 
-
   List<Event> _getEventsForDay(DateTime day) {
     return _events[day] ?? [];
   }
@@ -211,6 +210,7 @@ class _CalendarioState extends State<Calendario> {
                                     builder: (context) => EntradaDiario(
                                       emocion: event.emocion,
                                       emoji: event.emoji,
+                                      evento: event,
                                     ),
                                   ),
                                 );

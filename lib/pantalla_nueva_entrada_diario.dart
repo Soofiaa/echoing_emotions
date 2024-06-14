@@ -16,7 +16,7 @@ import 'entrada.dart';
 import 'package:provider/provider.dart';
 import 'pantalla_emociones.dart';
 import 'pantalla_calendario.dart';
-
+import 'pantalla_inicio_despues_de_iniciar.dart';
 
 
 class EntradaDiario extends StatefulWidget {
@@ -340,11 +340,21 @@ class _EntradaDiarioState extends State<EntradaDiario> {
               Icons.mic,
             ),
           ),
+          SizedBox(width: 16),
+          FloatingActionButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Home()),
+              );
+            },
+            child: Icon(Icons.home),
+            backgroundColor: Colors.cyan,
+          ),
         ],
       ),
     );
   }
-
   Future<void> _saveEntry() async {
     int? userId = UsuarioSesion().id;
     int ID = userId ?? 0;
