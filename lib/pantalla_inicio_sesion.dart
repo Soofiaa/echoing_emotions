@@ -148,7 +148,7 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
 
-            ElevatedButton( //boton de prueba
+            /*ElevatedButton( //boton de prueba
               onPressed: () async {
                 //eliminar bases de datos
 
@@ -216,7 +216,7 @@ class LoginScreen extends StatelessWidget {
                 'usuario',
                 style: TextStyle(color: Colors.black87),
               ),
-            ),
+            ),*/
             SizedBox(height: 12.0),
             TextButton(
               onPressed: () {
