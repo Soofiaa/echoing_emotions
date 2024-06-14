@@ -147,8 +147,8 @@ class LoginScreen extends StatelessWidget {
                 style: TextStyle(color: Colors.black87),
               ),
             ),
-
-            /*ElevatedButton( //boton de prueba
+/*
+            ElevatedButton( //boton de prueba
               onPressed: () async {
                 //eliminar bases de datos
 
@@ -160,7 +160,7 @@ class LoginScreen extends StatelessWidget {
                 //
 
 
-                  final nuevoUser = Usuarios(
+                  /*final nuevoUser = Usuarios(
                   id: 1,
                   nombre: 'nombre',
                   apellido: 'apellido',
@@ -177,7 +177,7 @@ class LoginScreen extends StatelessWidget {
                   final nombre = usuario.nombre;
                   final id = usuario.id;
                   print('nombre: $nombre , id: $id');
-                }
+                }*/
 
                 //final nuevaEntrada = Entrada(
                   //id_entrada: 4,
@@ -195,16 +195,17 @@ class LoginScreen extends StatelessWidget {
                 //print(ent);
                 //final entradas = await DBHelper_calendario.instance.buscarFecha(1,'2024-06-08');
                 //print(entradas);
-                /*await DBHelper_calendario.instance.modificarEntrada(nuevaEntrada);
+                //await DBHelper_calendario.instance.modificarEntrada(nuevaEntrada);
                 final entradasGuardadas = await dbCalendario.obtenerEntradas();
                 for (final Ens in entradasGuardadas) {
                   final titulo = Ens.titulo;
                   final contenido = Ens.contenido;
                   final fecha = Ens.fecha;
                   final id = Ens.id_entrada;
-                  print('titulo: $titulo, contenido: $contenido, fecha:$fecha, id: $id');
-                }*/
-                //await DBHelper_calendario.instance.eliminarEntrada(6);
+                  final idUser = Ens.id_usuario;
+                  print('titulo: $titulo, contenido: $contenido, fecha:$fecha, id: $id, idUsuario: $idUser');
+                }
+                await DBHelper_calendario.instance.eliminarEntrada(9);
               },
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(vertical: 16.0),
@@ -216,7 +217,9 @@ class LoginScreen extends StatelessWidget {
                 'usuario',
                 style: TextStyle(color: Colors.black87),
               ),
-            ),*/
+            ),
+
+            */
             SizedBox(height: 12.0),
             TextButton(
               onPressed: () {
