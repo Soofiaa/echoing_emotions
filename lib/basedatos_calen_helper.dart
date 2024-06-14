@@ -4,7 +4,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'entrada.dart';
 
-class DBHelper_calendario{
+class DBHelper_calendario {
   static final DBHelper_calendario instance = DBHelper_calendario._();
   static Database? _databaseC;
 
@@ -17,43 +17,35 @@ class DBHelper_calendario{
     _databaseC = await _initDatabaseEn();
     return _databaseC!;
   }
+
   Future<Database> _initDatabaseEn() async {
     final databasePath = await getDatabasesPath();
     final path = join(databasePath, 'misEntradas.db');
     return await openDatabase(
-        path,
-        version: 2,
-        onCreate: (db, version) async {
-          await db.execute(
-            'CREATE TABLE misEntradas ('
-            'id_entrada INTEGER PRIMARY KEY AUTOINCREMENT,'
-            'id_usuario INTEGER,'
-            'titulo TEXT,'
-            'contenido TEXT,'
-            'dibujo TEXT,'
-            'audio TEXT,'
-            'fecha TEXT,'
-            'emocion TEXT,'
-            'emoji TEXT)'
+      path,
+      version: 2,
+      onCreate: (db, version) async {
+        await db.execute(
+          'CREATE TABLE misEntradas ('
+              'id_entrada INTEGER PRIMARY KEY AUTOINCREMENT,'
+              'id_usuario INTEGER,'
+              'titulo TEXT,'
+              'contenido TEXT,'
+              'dibujo TEXT,'
+              'audio TEXT,'
+              'fecha TEXT,'
+              'emocion TEXT,'
+              'emoji TEXT)',
         );
-        }
+      },
     );
   }
+
   Future<void> insertarEntrada(Entrada entrada) async {
     final db = await databaseC;
     await db.insert(
       'misEntradas',
-      {
-        //'id_entrada':entrada.id_entrada,
-        'id_usuario':entrada.id_usuario,
-        'titulo':entrada.titulo,
-        'contenido':entrada.contenido,
-        'dibujo': entrada.dibujo,
-        'audio':entrada.audio,
-        'fecha':entrada.fecha,
-        'emocion':entrada.emocion,
-        'emoji':entrada.emoji,
-      },
+      entrada.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
@@ -61,35 +53,25 @@ class DBHelper_calendario{
   Future<List<Entrada>> obtenerEntradas() async {
     final db = await databaseC;
     final entradas = await db.query('misEntradas');
-    return entradas.map((map) => Entrada(
-      id_entrada: map['id_entrada'] as int,
-      id_usuario: map['id_usuario'] as int,
-      titulo: map['titulo'] as String,
-      contenido: map['contenido'] as String,
-      dibujo: map['dibujo'] as String,
-      audio: map['audio'] as String?,
-      fecha: map['fecha'] as String,
-      emocion: map['emocion'] as String,
-      emoji: map['emoji'] as String,
-    )).toList();
+    return entradas.map((map) => Entrada.fromMap(map)).toList();
   }
 
-  Future buscarFecha(int Id_User,String fecha) async {
+  Future<List<Map<String, dynamic>>> buscarFecha(int idUsuario, String fecha) async {
     final db = await databaseC;
     final result = await db.query(
       'misEntradas',
-      where: 'id_usuario =? AND fecha = ?',
-      whereArgs: [Id_User,fecha],
+      where: 'id_usuario = ? AND fecha = ?',
+      whereArgs: [idUsuario, fecha],
     );
     return result;
   }
 
-  Future buscarUsuario(int Id_User) async {
+  Future<List<Map<String, dynamic>>> buscarUsuario(int idUsuario) async {
     final db = await databaseC;
     final result = await db.query(
       'misEntradas',
-      where: 'id_usuario =?',
-      whereArgs: [Id_User],
+      where: 'id_usuario = ?',
+      whereArgs: [idUsuario],
     );
     return result;
   }
@@ -98,28 +80,24 @@ class DBHelper_calendario{
     final db = await databaseC;
     await db.update(
       'misEntradas',
-      entrada.toMap(
-      ), // Convierte la entrada en un mapa.
-      where: 'id_entrada = ?', // Filtra por el ID de la entrada.
-      whereArgs: [entrada.id_entrada], // Proporciona el ID como argumento.
+      entrada.toMap(),
+      where: 'id_entrada = ?',
+      whereArgs: [entrada.id_entrada],
     );
   }
-
 
   Future<void> eliminarEntrada(int idEntrada) async {
     final db = await databaseC;
     await db.delete(
       'misEntradas',
-      where: 'id_entrada = ?', // Filtra por el ID de la entrada.
-      whereArgs: [idEntrada], // Proporciona el ID como argumento.
+      where: 'id_entrada = ?',
+      whereArgs: [idEntrada],
     );
   }
-
 
   Future<void> eliminarBaseDeDatos() async {
     final path = await getDatabasesPath();
     final databasePath = join(path, 'misEntradas.db');
     await databaseFactory.deleteDatabase(databasePath);
-    print('aaa');
   }
 }

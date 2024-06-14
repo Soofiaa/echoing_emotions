@@ -15,12 +15,14 @@ import 'package:sqflite/sqflite.dart';
 import 'entrada.dart';
 import 'package:provider/provider.dart';
 import 'pantalla_emociones.dart';
+import 'pantalla_calendario.dart';
 
 class EntradaDiario extends StatefulWidget {
   final String? emocion;
   final String? emoji;
+  final Event? evento;
 
-  EntradaDiario({required this.emocion, required this.emoji});
+  EntradaDiario({required this.emocion, required this.emoji, this.evento});
   final dbCalendario = DBHelper_calendario.instance;
 
   @override
@@ -57,6 +59,14 @@ class _EntradaDiarioState extends State<EntradaDiario> {
     _emocion = widget.emocion;
     _emoji = widget.emoji;
     _selectedBackgroundImage = _backgroundImages[0]; // Default background
+
+    if (widget.evento != null) {
+      _titleController.text = widget.evento!.titulo;
+      _textController.text = widget.evento!.contenido;
+      _audioPath = widget.evento!.audio;
+      _emocion = widget.evento!.emocion;
+      _emoji = widget.evento!.emoji;
+    }
   }
 
   Future<void> _selectEmotion() async {
@@ -313,9 +323,8 @@ class _EntradaDiarioState extends State<EntradaDiario> {
   }
 
   Future<void> _saveEntry() async {
-
     int? userId = UsuarioSesion().id;
-    int ID=userId ?? 0;
+    int ID = userId ?? 0;
     final DateTime now = DateTime.now();
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
     String formattedDate = formatter.format(now);
@@ -328,10 +337,8 @@ class _EntradaDiarioState extends State<EntradaDiario> {
     final emoji = _emoji;
 
     final nuevaEntrada = Entrada(
-
-      id_entrada: 1, // Modificar según sea necesario
-
-      id_usuario: ID, // Modificar según sea necesario
+      id_entrada: widget.evento != null ? widget.evento!.id : null,
+      id_usuario: ID,
       titulo: title,
       contenido: content,
       dibujo: drawingPoints,
@@ -341,7 +348,11 @@ class _EntradaDiarioState extends State<EntradaDiario> {
       emoji: emoji,
     );
 
-    await DBHelper_calendario.instance.insertarEntrada(nuevaEntrada);
+    if (widget.evento != null) {
+      await DBHelper_calendario.instance.modificarEntrada(nuevaEntrada);
+    } else {
+      await DBHelper_calendario.instance.insertarEntrada(nuevaEntrada);
+    }
 
     if (emoji != null) {
       Provider.of<EmotionStatistics>(context, listen: false)
@@ -351,6 +362,8 @@ class _EntradaDiarioState extends State<EntradaDiario> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Entrada guardada exitosamente')),
     );
+
+    Navigator.pop(context);
   }
 
   Widget _buildDrawingStack() {

@@ -179,14 +179,14 @@ class LoginScreen extends StatelessWidget {
                   print('nombre: $nombre , id: $id');
                 }
 
-                final nuevaEntrada = Entrada(
-                  id_entrada: 4,
-                  id_usuario: 1,
-                  titulo: 'cccc',
-                  contenido: 'cccc...',
-                  audio: 'ccc',
-                  fecha: '2024-05-29',
-                );
+                //final nuevaEntrada = Entrada(
+                  //id_entrada: 4,
+                  //id_usuario: 1,
+                  //titulo: 'cccc',
+                  //contenido: 'cccc...',
+                  //audio: 'ccc',
+                //fecha: '2024-05-29',
+                //);
 
                 //await DBHelper_calendario.instance.databaseC;
                 //await DBHelper_calendario.instance.insertarEntrada(nuevaEntrada);

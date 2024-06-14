@@ -1,7 +1,5 @@
-import 'package:echoing_emotions/pantalla_entrada_dibujo.dart';
-
 class Entrada {
-  final int id_entrada;
+  final int? id_entrada;
   final int id_usuario;
   final String titulo;
   final String contenido;
@@ -12,26 +10,42 @@ class Entrada {
   final String? emoji;
 
   Entrada({
-    required this.id_entrada,
+    this.id_entrada,
     required this.id_usuario,
-    this.titulo = '',
-    this.contenido = '',
-    this.dibujo = '',
-    this.audio = '',
+    required this.titulo,
+    required this.contenido,
+    required this.dibujo,
+    this.audio,
     required this.fecha,
-    this.emocion = '',
-    this.emoji = ''
+    this.emocion,
+    this.emoji,
   });
+
   Map<String, dynamic> toMap() {
     return {
       'id_entrada': id_entrada,
       'id_usuario': id_usuario,
       'titulo': titulo,
       'contenido': contenido,
-      'dibujo':dibujo,
-      'audio':audio,
-      'fecha':fecha,
-      'emocion':emocion,
-      'emoji':emoji
-    };}
+      'dibujo': dibujo,
+      'audio': audio,
+      'fecha': fecha,
+      'emocion': emocion,
+      'emoji': emoji,
+    };
+  }
+
+  static Entrada fromMap(Map<String, dynamic> map) {
+    return Entrada(
+      id_entrada: map['id_entrada'],
+      id_usuario: map['id_usuario'],
+      titulo: map['titulo'],
+      contenido: map['contenido'],
+      dibujo: map['dibujo'],
+      audio: map['audio'],
+      fecha: map['fecha'],
+      emocion: map['emocion'],
+      emoji: map['emoji'],
+    );
+  }
 }
