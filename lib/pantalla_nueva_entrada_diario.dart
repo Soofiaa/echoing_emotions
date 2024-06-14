@@ -377,7 +377,7 @@ class _EntradaDiarioState extends State<EntradaDiario> {
       contenido: content,
       dibujo: drawingPoints,
       audio: audioPath,
-      fecha: widget.evento != null ? widget.evento!.fecha : formattedDate,
+      fecha: formattedDate,
       emocion: emocion,
       emoji: emoji,
     );
