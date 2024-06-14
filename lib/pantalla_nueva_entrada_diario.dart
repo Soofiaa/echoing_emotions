@@ -368,6 +368,7 @@ class _EntradaDiarioState extends State<EntradaDiario> {
     final audioPath = _audioPath;
     final emocion = _emocion;
     final emoji = _emoji;
+    var fechaAnterio;
 
     final nuevaEntrada = Entrada(
       id_entrada: widget.evento != null ? widget.evento!.id : null,
@@ -376,7 +377,7 @@ class _EntradaDiarioState extends State<EntradaDiario> {
       contenido: content,
       dibujo: drawingPoints,
       audio: audioPath,
-      fecha: formattedDate,
+      fecha: widget.evento != null ? widget.evento!.fecha : formattedDate,
       emocion: emocion,
       emoji: emoji,
     );
