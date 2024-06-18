@@ -1,4 +1,3 @@
-// lib/home.dart
 import 'package:flutter/material.dart';
 import 'pantalla_calendario.dart';
 import 'pantalla_nueva_entrada_diario.dart';
@@ -24,6 +23,7 @@ class Home extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Home'),
+        automaticallyImplyLeading: false, // Quitar la flecha de retroceso
       ),
       backgroundColor: Colors.teal.shade300,
       body: Column(
@@ -155,7 +155,6 @@ class Home extends StatelessWidget {
               ),
             ),
           ),
-
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 20.0),

@@ -2,22 +2,25 @@ import 'package:echoing_emotions/pantalla_inicio_despues_de_iniciar.dart';
 import 'package:echoing_emotions/usuarios.dart';
 import 'package:flutter/material.dart';
 import 'entrada.dart';
-import 'package:echoing_emotions/entrada.dart';
-import 'pantalla_registro.dart';// Importamos la pantalla de registro
-import 'pantalla_recuperar_contrasena.dart';// Importamos la pantalla de recuperación
-import 'pantalla_mi_perfil.dart';  // Importamos la pantalla de inicio después del inicio de sesión exitoso
+import 'pantalla_registro.dart'; // Importamos la pantalla de registro
+import 'pantalla_recuperar_contrasena.dart'; // Importamos la pantalla de recuperación
+import 'pantalla_mi_perfil.dart'; // Importamos la pantalla de inicio después del inicio de sesión exitoso
 import 'package:sqflite/sqflite.dart';
 import 'database_helper.dart';
 import 'basedatos_calen_helper.dart';
 import 'usuario_sesion.dart'; // Importamos el Singleton para la sesión de usuario
-/*
-Falta revisar que las credenciales estén correctas al iniciar sesión
- */
-class LoginScreen extends StatelessWidget {
+
+class LoginScreen extends StatefulWidget {
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final dbHelper = DatabaseHelper.instance;
   final dbCalendario = DBHelper_calendario.instance;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  String errorMessage = '';
 
   @override
   Widget build(BuildContext context) {
@@ -112,29 +115,27 @@ class LoginScreen extends StatelessWidget {
 
                 await DatabaseHelper.instance.database;
                 final int idUser = await DatabaseHelper.instance.iniciarUsuario(email, password);
-                // Navegar a la pantalla de inicio después del inicio de sesión exitoso al presionar el botón
-                if(idUser!=0){
-                  print(idUser);
 
-                  // id global como esta hecho hay que agregar el usuarios a global
-
-                  UsuarioSesion().usuario = Usuarios(
-                    id: idUser,
-                    nombre: '',
-                    apellido: '',
-                    fechaNacimiento: '',
-                    correoElectronico: email,
-                    password: password,
-                  );
-
-                  //
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Home()),
-                  );
-                } else {
-                  print('cuenta no existe');
-                }
+                setState(() {
+                  if (idUser != 0) {
+                    // id global como esta hecho hay que agregar el usuarios a global
+                    UsuarioSesion().usuario = Usuarios(
+                      id: idUser,
+                      nombre: '',
+                      apellido: '',
+                      fechaNacimiento: '',
+                      correoElectronico: email,
+                      password: password,
+                    );
+                    // Navegar a la pantalla de inicio después del inicio de sesión exitoso
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Home()),
+                    );
+                  } else {
+                    errorMessage = 'Las credenciales están incorrectas, vuelva a ingresarlas o regístrese';
+                  }
+                });
               },
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(vertical: 16.0),
@@ -147,77 +148,12 @@ class LoginScreen extends StatelessWidget {
                 style: TextStyle(color: Colors.black87),
               ),
             ),
-
-            /*ElevatedButton( //boton de prueba
-              onPressed: () async {
-                //eliminar bases de datos
-
-                //await DatabaseHelper.instance.database;
-                //await DatabaseHelper.instance.eliminarBaseDeDatos();
-                //await DBHelper_calendario.instance.databaseC;
-                //await DBHelper_calendario.instance.eliminarBaseDeDatos();
-
-                //
-
-
-                  final nuevoUser = Usuarios(
-                  id: 1,
-                  nombre: 'nombre',
-                  apellido: 'apellido',
-                  fechaNacimiento: 'fechaNacimiento',
-                  correoElectronico: 'correo',
-                  password: 'password',
-                );
-
-                await DatabaseHelper.instance.database;
-                await DatabaseHelper.instance.insertarUsuario(nuevoUser);
-
-                final usuarios = await DatabaseHelper.instance.obtenerUsuarios();
-                for (final usuario in usuarios) {
-                  final nombre = usuario.nombre;
-                  final id = usuario.id;
-                  print('nombre: $nombre , id: $id');
-                }
-
-                //final nuevaEntrada = Entrada(
-                  //id_entrada: 4,
-                  //id_usuario: 1,
-                  //titulo: 'cccc',
-                  //contenido: 'cccc...',
-                  //audio: 'ccc',
-                //fecha: '2024-05-29',
-                //);
-
-                //await DBHelper_calendario.instance.databaseC;
-                //await DBHelper_calendario.instance.insertarEntrada(nuevaEntrada);
-                //await DBHelper_calendario.instance.databaseC;
-                //final ent =await DBHelper_calendario.instance.buscarUsuario(1);
-                //print(ent);
-                //final entradas = await DBHelper_calendario.instance.buscarFecha(1,'2024-06-08');
-                //print(entradas);
-                /*await DBHelper_calendario.instance.modificarEntrada(nuevaEntrada);
-                final entradasGuardadas = await dbCalendario.obtenerEntradas();
-                for (final Ens in entradasGuardadas) {
-                  final titulo = Ens.titulo;
-                  final contenido = Ens.contenido;
-                  final fecha = Ens.fecha;
-                  final id = Ens.id_entrada;
-                  print('titulo: $titulo, contenido: $contenido, fecha:$fecha, id: $id');
-                }*/
-                //await DBHelper_calendario.instance.eliminarEntrada(6);
-              },
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 16.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-              ),
-              child: const Text(
-                'usuario',
-                style: TextStyle(color: Colors.black87),
-              ),
-            ),*/
             SizedBox(height: 12.0),
+            Text(
+              errorMessage,
+              style: TextStyle(color: Colors.red),
+              textAlign: TextAlign.center,
+            ),
             TextButton(
               onPressed: () {
                 Navigator.push(
@@ -240,8 +176,3 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-void main() {
-  runApp(MaterialApp(
-    home: LoginScreen(),
-  ));
-}

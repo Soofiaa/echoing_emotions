@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-//import 'package:timezone/timezone.dart' as tz;
-
 import 'Services/notifi_service.dart';
-import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart' as datatTimePicker;
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart' as dateTimePicker;
 
 DateTime scheduleTime = DateTime.now();
 
@@ -18,7 +15,7 @@ class _ConfiguracionState extends State<Configuracion> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Configuracion Notificaciones"),
+        title: const Text("Configuración Notificaciones"),
       ),
       body: const Center(
         child: Column(
@@ -50,12 +47,13 @@ class _DatePickerTxtState extends State<DatePickerTxt> {
         DatePicker.showDateTimePicker(
           context,
           showTitleActions: true,
+          locale: LocaleType.es, // Asegúrate de que el calendario esté en español
           onChanged: (date) => scheduleTime = date,
           onConfirm: (date) {},
         );
       },
       child: const Text(
-        'Seleccionar dia ',
+        'Seleccionar día',
         style: TextStyle(color: Colors.blue),
       ),
     );
@@ -70,7 +68,7 @@ class ScheduleBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      child: const Text('Agendar notificacion'),
+      child: const Text('Agendar notificación'),
       onPressed: () {
         debugPrint('Notification Scheduled for $scheduleTime');
         NotificationService().scheduleNotification(
