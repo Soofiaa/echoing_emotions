@@ -148,7 +148,80 @@ class _LoginScreenState extends State<LoginScreen> {
                 style: TextStyle(color: Colors.black87),
               ),
             ),
-            SizedBox(height: 12.0),
+/*
+            ElevatedButton( //boton de prueba
+              onPressed: () async {
+                //eliminar bases de datos
+
+                //await DatabaseHelper.instance.database;
+                //await DatabaseHelper.instance.eliminarBaseDeDatos();
+                //await DBHelper_calendario.instance.databaseC;
+                //await DBHelper_calendario.instance.eliminarBaseDeDatos();
+
+                //
+
+
+                  /*final nuevoUser = Usuarios(
+                  id: 1,
+                  nombre: 'nombre',
+                  apellido: 'apellido',
+                  fechaNacimiento: 'fechaNacimiento',
+                  correoElectronico: 'correo',
+                  password: 'password',
+                );
+
+                await DatabaseHelper.instance.database;
+                await DatabaseHelper.instance.insertarUsuario(nuevoUser);
+
+                final usuarios = await DatabaseHelper.instance.obtenerUsuarios();
+                for (final usuario in usuarios) {
+                  final nombre = usuario.nombre;
+                  final id = usuario.id;
+                  print('nombre: $nombre , id: $id');
+                }*/
+
+                //final nuevaEntrada = Entrada(
+                  //id_entrada: 4,
+                  //id_usuario: 1,
+                  //titulo: 'cccc',
+                  //contenido: 'cccc...',
+                  //audio: 'ccc',
+                //fecha: '2024-05-29',
+                //);
+
+                //await DBHelper_calendario.instance.databaseC;
+                //await DBHelper_calendario.instance.insertarEntrada(nuevaEntrada);
+                //await DBHelper_calendario.instance.databaseC;
+                //final ent =await DBHelper_calendario.instance.buscarUsuario(1);
+                //print(ent);
+                //final entradas = await DBHelper_calendario.instance.buscarFecha(1,'2024-06-08');
+                //print(entradas);
+                //await DBHelper_calendario.instance.modificarEntrada(nuevaEntrada);
+                final entradasGuardadas = await dbCalendario.obtenerEntradas();
+                for (final Ens in entradasGuardadas) {
+                  final titulo = Ens.titulo;
+                  final contenido = Ens.contenido;
+                  final fecha = Ens.fecha;
+                  final id = Ens.id_entrada;
+                  final idUser = Ens.id_usuario;
+                  print('titulo: $titulo, contenido: $contenido, fecha:$fecha, id: $id, idUsuario: $idUser');
+                }
+                await DBHelper_calendario.instance.eliminarEntrada(9);
+              },
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(vertical: 16.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+              child: const Text(
+                'usuario',
+                style: TextStyle(color: Colors.black87),
+              ),
+            ),
+
+        */
+
             Text(
               errorMessage,
               style: TextStyle(color: Colors.red),
