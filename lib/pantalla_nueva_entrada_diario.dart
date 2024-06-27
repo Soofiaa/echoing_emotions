@@ -156,7 +156,7 @@ class _EntradaDiarioState extends State<EntradaDiario> {
                         onTap: _selectEmotion,
                         child: Text(
                           _emoji!,
-                          style: TextStyle(fontSize: 40.0),
+                          style: const TextStyle(fontSize: 40.0),
                         ),
                       ),
                     if (_emocion != null)
@@ -166,7 +166,7 @@ class _EntradaDiarioState extends State<EntradaDiario> {
                         onTap: _selectEmotion,
                         child: Text(
                           _emocion!,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 25.0, fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -379,7 +379,8 @@ class _EntradaDiarioState extends State<EntradaDiario> {
       fecha: widget.evento != null ? widget.evento!.fecha : formattedDate,
       emocion: emocion,
       emoji: emoji,
-    );
+    )
+    ;
 
     if (widget.evento != null) {
       await DBHelper_calendario.instance.modificarEntrada(nuevaEntrada);
@@ -393,10 +394,17 @@ class _EntradaDiarioState extends State<EntradaDiario> {
     }
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Entrada guardada exitosamente')),
+      const SnackBar(content: Text('Entrada guardada exitosamente')),
     );
 
-    Navigator.pop(context);
+    //Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Home()),
+    );
+
+
+
   }
 
   Widget _buildDrawingStack() {
