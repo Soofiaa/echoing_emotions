@@ -75,6 +75,12 @@ class ScheduleBtn extends StatelessWidget {
             title: 'Scheduled Notification',
             body: '$scheduleTime',
             scheduledNotificationDateTime: scheduleTime);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Notificación agendada'),
+          ),
+        );
       },
     );
   }
