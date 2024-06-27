@@ -1,3 +1,4 @@
+import 'package:email_otp/email_otp.dart';
 import 'package:echoing_emotions/usuarios.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +9,17 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sqflite/sqflite.dart';
 import 'database_helper.dart';
 
+void main() {
+  EmailOTP.config(
+    appName: 'MyApp',
+    otpType: OTPType.numeric,
+    emailTheme: EmailTheme.v1,
+  );
+}
 
 class RegistrationScreen extends StatefulWidget {
   final dbHelper = DatabaseHelper.instance;
+
   @override
   _RegistrationScreenState createState() => _RegistrationScreenState();
 }
@@ -22,6 +31,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   late TextEditingController _nombreController;
   late TextEditingController _apellidoController;
   late TextEditingController _correoController;
+  late TextEditingController _codigoController;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -33,6 +43,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     _nombreController = TextEditingController();
     _apellidoController = TextEditingController();
     _correoController = TextEditingController();
+    _codigoController = TextEditingController();
   }
 
   @override
@@ -43,6 +54,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     _nombreController.dispose();
     _apellidoController.dispose();
     _correoController.dispose();
+    _codigoController.dispose();
     super.dispose();
   }
 
@@ -208,11 +220,50 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 },
               ),
               const SizedBox(height: 16.0),
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildInputField(
+                      'Correo electrónico',
+                      'Inserte su correo electrónico',
+                      controller: _correoController,
+                      validator: _validateEmail,
+                    ),
+                  ),
+                  const SizedBox(width: 8.0),
+                  ElevatedButton(
+                    onPressed: () async {
+                      if (_validateEmail(_correoController.text) == null) {
+                        bool otpSent = await EmailOTP.sendOTP(
+                            email: _correoController.text);
+                        if (otpSent) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text("Código OTP enviado")),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text("Error al enviar código OTP")),
+                          );
+                        }
+                      }
+                    },
+                    child: const Text('Enviar código'),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16.0),
               _buildInputField(
-                'Correo electrónico',
-                'Inserte su correo electrónico',
-                controller: _correoController,
-                validator: _validateEmail,
+                'Código de verificación',
+                'Inserte el código de verificación',
+                controller: _codigoController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor ingrese el código de verificación';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 16.0),
               _buildInputField(
@@ -241,38 +292,49 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               const SizedBox(height: 24.0),
               ElevatedButton(
                 onPressed: () async {
-                  if (_formKey.currentState!.validate())  {
-                    // Crear instancia de User con los datos del formulario
-                    User newUser = User(
-                      nombre: _nombreController.text,
-                      apellido: _apellidoController.text,
-                      fechaNacimiento: _dateController.text,
-                      correoElectronico: _correoController.text,
-                      contrasenya: _passwordController.text,
-                    );
-                    // Aquí puedes agregar la lógica para guardar el usuario o enviarlo a tu backend
-                    final usuario = Usuarios(
-                        id:1,
-                        nombre:newUser.nombre,
-                        apellido:newUser.apellido,
-                        fechaNacimiento: newUser.fechaNacimiento,
-                        correoElectronico: newUser.correoElectronico,
-                        password: newUser.contrasenya
-                    );
+                  if (_formKey.currentState!.validate()) {
+                    bool otpVerified = await EmailOTP.verifyOTP(
+                        otp: _codigoController.text);
+                    if (otpVerified) {
+                      // Crear instancia de User con los datos del formulario
+                      User newUser = User(
+                        nombre: _nombreController.text,
+                        apellido: _apellidoController.text,
+                        fechaNacimiento: _dateController.text,
+                        correoElectronico: _correoController.text,
+                        contrasenya: _passwordController.text,
+                      );
 
-                    // Inserta un nombre (puedes hacer esto en el manejador del botón)
-                    await DatabaseHelper.instance.database;
-                    await DatabaseHelper.instance.insertarUsuario(usuario);
+                      // Aquí puedes agregar la lógica para guardar el usuario o enviarlo a tu backend
+                      final usuario = Usuarios(
+                          id: 1,
+                          nombre: newUser.nombre,
+                          apellido: newUser.apellido,
+                          fechaNacimiento: newUser.fechaNacimiento,
+                          correoElectronico: newUser.correoElectronico,
+                          password: newUser.contrasenya);
 
-                    if (kDebugMode) {
-                      print('User registered: ${newUser.nombre}, ${newUser.apellido}, ${newUser.fechaNacimiento}, ${newUser.correoElectronico}');
+                      // Inserta un nombre (puedes hacer esto en el manejador del botón)
+                      await DatabaseHelper.instance.database;
+                      await DatabaseHelper.instance.insertarUsuario(usuario);
+
+                      if (kDebugMode) {
+                        print(
+                            'User registered: ${newUser.nombre}, ${newUser.apellido}, ${newUser.fechaNacimiento}, ${newUser.correoElectronico}');
+                      }
+
+                      // Navegar de regreso a la pantalla de inicio de sesión
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => LoginScreen()),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content: Text("Código de verificación incorrecto")),
+                      );
                     }
-
-                    // Navegar de regreso a la pantalla de inicio de sesión
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
-                    );
                   }
                 },
                 style: ElevatedButton.styleFrom(

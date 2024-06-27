@@ -49,7 +49,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
-
+  email_otp: ^3.0.1
 
   #intl: ^0.18.1  # Agregado para el manejo de fechas
   add_2_calendar: ^3.0.1
