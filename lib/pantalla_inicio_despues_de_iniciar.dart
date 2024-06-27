@@ -36,7 +36,7 @@ class Home extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20.0),
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                     color: Colors.black26,
                     blurRadius: 10.0,
@@ -48,7 +48,7 @@ class Home extends StatelessWidget {
                 children: [
                   Text(
                     DateFormat('dd-MM-yyyy').format(DateTime.now()),
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 30.0,
                       fontWeight: FontWeight.bold,
@@ -56,7 +56,7 @@ class Home extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: 20.0),
-                  Text(
+                  const Text(
                     'Meditar puede ayudarte a dormir mejor.',
                     style: TextStyle(
                       color: Colors.black,
@@ -90,7 +90,7 @@ class Home extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 30.0),
                 child: Column(
                   children: [
-                    Text(
+                    const Text(
                       '¿Cómo te sientes?',
                       style: TextStyle(color: Colors.black, fontSize: 18.0),
                     ),
@@ -140,7 +140,7 @@ class Home extends StatelessWidget {
                       height: 175.0,
                     ),
                   ),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.only(top: 8.0), // Ajusta la posición del texto desde la parte superior
                     child: Text(
                       'Estadísticas de emociones',
@@ -179,7 +179,7 @@ class Home extends StatelessWidget {
                               CircleBorder(),
                             ),
                           ),
-                          child: Padding(
+                          child: const Padding(
                             padding: EdgeInsets.all(15),
                             child: Icon(Icons.calendar_today),
                           ),
