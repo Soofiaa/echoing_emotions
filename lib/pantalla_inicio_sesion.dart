@@ -102,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   textStyle: TextStyle(fontSize: 16.0),
                 ),
                 child: const Text(
-                  '¿Olvidaste la contraseña?',
+                  '',  //
                   style: TextStyle(color: Colors.white),
                 ),
               ),
